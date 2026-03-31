@@ -1,0 +1,11 @@
+*/bin/
+*/dist/
+*/coverage.out
+*.log
+*.DS_Store
+*.env
+*/docker-compose.yml
+*.dockerignore
+*.docx
+*.sql
+*.txt

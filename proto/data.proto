@@ -1,0 +1,241 @@
+syntax = "proto3";
+
+option go_package = "./../gen;pb";
+
+service DataService {
+    rpc Overview (CompanyRequest) returns (OverviewResponse);
+    rpc IncomeStatement (FinancialRequest) returns (IncomeStatementResponse);
+    rpc BalanceSheet (FinancialRequest) returns (BalanceSheetResponse);
+    rpc CashFlow (FinancialRequest) returns (CashFlowResponse); 
+}
+
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+message CompanyRequest {
+    string name = 1;
+}
+
+// ––––––––––––––––––––––––––––
+
+message Quarter {
+    int32 year = 1;
+    int32 quarter = 2;
+}
+
+message QuarterRange {
+    Quarter start = 1;
+    Quarter end = 2;
+}
+
+message FinancialRequest {
+    string name = 1;
+    oneof timeframe {
+        Quarter date = 2;
+        QuarterRange range = 3;
+    }
+}
+
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+message OverviewResponse {
+    string symbol = 1;
+    string assettype = 2;
+    string name = 3;
+    string description = 4;
+    string cik = 5;
+    string exchange = 6;
+    string currency = 7;
+    string country = 8;
+    string sector = 9;
+    string industry = 10;
+    string address = 11;
+    string officialsite = 12;
+    string fiscalyearend = 13;
+    string latestquarter = 14;
+    string marketcapitalization = 15;
+    string ebitda = 16;
+    string peratio = 17;
+    string pegratio = 18;
+    string bookvalue = 19;
+    string dividendpershare = 20;
+    string dividendyield = 21;
+    string eps = 22;
+    string revenuepersharettm = 23;
+    string profitmargin = 24;
+    string operatingmarginttm = 25;
+    string returnonassetsttm = 26;
+    string returnonequityttm = 27;
+    string revenuettm = 28;
+    string grossprofitttm = 29;
+    string dilutedepsttm = 30;
+    string quarterlyearningsgrowthyoy = 31;
+    string quarterlyrevenuegrowthyoy = 32;
+    string analysttargetprice = 33;
+    string analystratingstrongbuy = 34;
+    string analystratingbuy = 35;
+    string analystratinghold = 36;
+    string analystratingsell = 37;
+    string analystratingstrongsell = 38;
+    string trailingpe = 39;
+    string forwardpe = 40;
+    string pricetosalesratiottm = 41;
+    string pricetobookratio = 42;
+    string evtorevenue = 43;
+    string evtoebitda = 44;
+    string beta = 45;
+    string weekhigh52 = 46;
+    string weeklow52 = 47;
+    string daymovingaverage50 = 48;
+    string daymovingaverage200 = 49;
+    string sharesoutstanding = 50;
+    string sharesfloat = 51;
+    string percentinsiders = 52;
+    string percentinstitutions = 53;
+    string dividenddate = 54;
+    string exdividenddate = 55;
+}
+
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+message SingleIncomeStatementResponse {
+    string symbol = 1;
+    string fiscaldateending = 2;
+    string reportedcurrency = 3;
+    string grossprofit = 4;
+    string totalrevenue = 5;
+    string costofrevenue = 6;
+    string costofgoodsandservicessold = 7;
+    string operatingincome = 8;
+    string sellinggeneralandadministrative = 9;
+    string researchanddevelopment = 10;
+    string operatingexpenses = 11;
+    string investmentincomenet = 12;
+    string netinterestincome = 13;
+    string interestincome = 14;
+    string interestexpense = 15;
+    string noninterestincome = 16;
+    string othernonoperatingincome = 17;
+    string depreciation = 18;
+    string depreciationandamortization = 19;
+    string incomebeforetax = 20;
+    string incometaxexpense = 21;
+    string interestanddebtexpense = 22;
+    string netincomefromcontinuingoperations = 23;
+    string comprehensiveincomenetoftax = 24;
+    string ebit = 25;
+    string ebitda = 26;
+    string netincome = 27;
+}
+
+message MultipleIncomeStatementResponse {
+    repeated SingleIncomeStatementResponse response = 1;
+}
+
+message IncomeStatementResponse {
+    oneof response {
+        SingleIncomeStatementResponse single = 1;
+        MultipleIncomeStatementResponse multiple = 2;
+    }
+}
+
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+message SingleBalanceSheetResponse {
+    string symbol = 1;
+    string fiscaldateending = 2;
+    string reportedcurrency = 3;
+    string totalassets = 4;
+    string totalcurrentassets = 5;
+    string cashandcashequivalentsatcarryingvalue = 6;
+    string cashandshortterminvestments = 7;
+    string inventory = 8;
+    string currentnetreceivables = 9;
+    string totalnoncurrentassets = 10;
+    string propertyplantequipment = 11;
+    string accumulateddepreciationamortizationppe = 12;
+    string intangibleassets = 13;
+    string intangibleassetsexcludinggoodwill = 14;
+    string goodwill = 15;
+    string investments = 16;
+    string longterminvestments = 17;
+    string shortterminvestments = 18;
+    string othercurrentassets = 19;
+    string othernoncurrentassets = 20;
+    string totalliabilities = 21;
+    string totalcurrentliabilities = 22;
+    string currentaccountspayable = 23;
+    string deferredrevenue = 24;
+    string currentdebt = 25;
+    string shorttermdebt = 26;
+    string totalnoncurrentliabilities = 27;
+    string capitalleaseobligations = 28;
+    string longtermdebt = 29;
+    string currentlongtermdebt = 30;
+    string longtermdebtnoncurrent = 31;
+    string shortlongtermdebttotal = 32;
+    string othercurrentliabilities = 33;
+    string othernoncurrentliabilities = 34;
+    string totalshareholderequity = 35;
+    string treasurystock = 36;
+    string retainedearnings = 37;
+    string commonstock = 38;
+    string commonstocksharesoutstanding = 39;
+}
+
+message MultipleBalanceSheetResponse {
+    repeated SingleBalanceSheetResponse response = 1;
+}
+
+message BalanceSheetResponse {
+    oneof response {
+        SingleBalanceSheetResponse single = 1;
+        MultipleBalanceSheetResponse multiple = 2;
+    }
+}
+
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+message SingleCashFlowResponse {
+    string symbol = 1;
+    string fiscaldateending = 2;
+    string reportedcurrency = 3;
+    string operatingcashflow = 4;
+    string paymentsforoperatingactivities = 5;
+    string proceedsfromoperatingactivities = 6;
+    string changeinoperatingliabilities = 7;
+    string changeinoperatingassets = 8;
+    string depreciationdepletionandamortization = 9;
+    string capitalexpenditures = 10;
+    string changeinreceivables = 11;
+    string changeininventory = 12;
+    string profitloss = 13;
+    string cashflowfrominvestment = 14;
+    string cashflowfromfinancing = 15;
+    string proceedsfromrepaymentsofshorttermdebt = 16;
+    string paymentsforrepurchaseofcommonstock = 17;
+    string paymentsforrepurchaseofequity = 18;
+    string paymentsforrepurchaseofpreferredstock = 19;
+    string dividendpayout = 20;
+    string dividendpayoutcommonstock = 21;
+    string dividendpayoutpreferredstock = 22;
+    string proceedsfromissuanceofcommonstock = 23;
+    string proceedsfromissuanceoflongtermdebtandcapitalsecuritiesnet = 24;
+    string proceedsfromissuanceofpreferredstock = 25;
+    string proceedsfromrepurchaseofequity = 26;
+    string proceedsfromsaleoftreasurystock = 27;
+    string stockbasedcompensation = 28;
+    string changeincashandcashequivalents = 29;
+    string changeinexchangerate = 30;
+    string netincome = 31;
+}
+
+message MultipleCashFlowResponse {
+    repeated SingleCashFlowResponse response = 1;
+}
+
+message CashFlowResponse {
+    oneof response {
+        SingleCashFlowResponse single = 1;
+        MultipleCashFlowResponse multiple = 2;
+    }
+}
