@@ -1,5 +1,9 @@
 package dtos
 
+import (
+	"tspo/db"
+)
+
 type Overview struct {
 	Symbol                     string `json:"Symbol"`
 	AssetType                  string `json:"AssetType"`
@@ -58,11 +62,23 @@ type Overview struct {
 	ExDividendDate             string `json:"ExDividendDate"`
 }
 
-func (req *Overview) TableName() string {
+func (s *Overview) ToDatabaseableSlice() []db.Databaseable {
+	return []db.Databaseable{&overviewDB{s}}
+}
+
+// ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+type overviewDB struct {
+	*Overview
+}
+
+// ––––––––––––––––––––––––––––––––––––––––––––––
+
+func (req *overviewDB) TableName() string {
 	return "overview"
 }
 
-func (req *Overview) Columns() []string {
+func (req *overviewDB) Columns() []string {
 	return []string{
 		"symbol",
 		"assetType",
@@ -122,8 +138,10 @@ func (req *Overview) Columns() []string {
 	}
 }
 
-func (req *Overview) Values() []interface{} {
-	return []interface{}{
+// ––––––––––––––––––––––––––––––––––––––––––––––
+
+func (req *overviewDB) InsertableValues() []any {
+	return []any{
 		req.Symbol,
 		req.AssetType,
 		req.Name,
@@ -182,8 +200,10 @@ func (req *Overview) Values() []interface{} {
 	}
 }
 
-func (res *Overview) ScanValues() []interface{} {
-	return []interface{}{
+// ––––––––––––––––––––––––––––––––––––––––––––––
+
+func (res *overviewDB) SelectableValues() []any {
+	return []any{
 		&res.Symbol,
 		&res.AssetType,
 		&res.Name,

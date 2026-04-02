@@ -2001,19 +2001,19 @@ var File_proto_data_proto protoreflect.FileDescriptor
 
 const file_proto_data_proto_rawDesc = "" +
 	"\n" +
-	"\x10proto/data.proto\"$\n" +
+	"\x10proto/data.proto\x12\x04data\"$\n" +
 	"\x0eCompanyRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"7\n" +
 	"\aQuarter\x12\x12\n" +
 	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x18\n" +
-	"\aquarter\x18\x02 \x01(\x05R\aquarter\"J\n" +
-	"\fQuarterRange\x12\x1e\n" +
-	"\x05start\x18\x01 \x01(\v2\b.QuarterR\x05start\x12\x1a\n" +
-	"\x03end\x18\x02 \x01(\v2\b.QuarterR\x03end\"z\n" +
+	"\aquarter\x18\x02 \x01(\x05R\aquarter\"T\n" +
+	"\fQuarterRange\x12#\n" +
+	"\x05start\x18\x01 \x01(\v2\r.data.QuarterR\x05start\x12\x1f\n" +
+	"\x03end\x18\x02 \x01(\v2\r.data.QuarterR\x03end\"\x84\x01\n" +
 	"\x10FinancialRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1e\n" +
-	"\x04date\x18\x02 \x01(\v2\b.QuarterH\x00R\x04date\x12%\n" +
-	"\x05range\x18\x03 \x01(\v2\r.QuarterRangeH\x00R\x05rangeB\v\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12#\n" +
+	"\x04date\x18\x02 \x01(\v2\r.data.QuarterH\x00R\x04date\x12*\n" +
+	"\x05range\x18\x03 \x01(\v2\x12.data.QuarterRangeH\x00R\x05rangeB\v\n" +
 	"\ttimeframe\"\xa6\x10\n" +
 	"\x10OverviewResponse\x12\x16\n" +
 	"\x06symbol\x18\x01 \x01(\tR\x06symbol\x12\x1c\n" +
@@ -2108,12 +2108,12 @@ const file_proto_data_proto_rawDesc = "" +
 	"\x1bcomprehensiveincomenetoftax\x18\x18 \x01(\tR\x1bcomprehensiveincomenetoftax\x12\x12\n" +
 	"\x04ebit\x18\x19 \x01(\tR\x04ebit\x12\x16\n" +
 	"\x06ebitda\x18\x1a \x01(\tR\x06ebitda\x12\x1c\n" +
-	"\tnetincome\x18\x1b \x01(\tR\tnetincome\"]\n" +
-	"\x1fMultipleIncomeStatementResponse\x12:\n" +
-	"\bresponse\x18\x01 \x03(\v2\x1e.SingleIncomeStatementResponseR\bresponse\"\x9f\x01\n" +
-	"\x17IncomeStatementResponse\x128\n" +
-	"\x06single\x18\x01 \x01(\v2\x1e.SingleIncomeStatementResponseH\x00R\x06single\x12>\n" +
-	"\bmultiple\x18\x02 \x01(\v2 .MultipleIncomeStatementResponseH\x00R\bmultipleB\n" +
+	"\tnetincome\x18\x1b \x01(\tR\tnetincome\"b\n" +
+	"\x1fMultipleIncomeStatementResponse\x12?\n" +
+	"\bresponse\x18\x01 \x03(\v2#.data.SingleIncomeStatementResponseR\bresponse\"\xa9\x01\n" +
+	"\x17IncomeStatementResponse\x12=\n" +
+	"\x06single\x18\x01 \x01(\v2#.data.SingleIncomeStatementResponseH\x00R\x06single\x12C\n" +
+	"\bmultiple\x18\x02 \x01(\v2%.data.MultipleIncomeStatementResponseH\x00R\bmultipleB\n" +
 	"\n" +
 	"\bresponse\"\xce\x0f\n" +
 	"\x1aSingleBalanceSheetResponse\x12\x16\n" +
@@ -2156,12 +2156,12 @@ const file_proto_data_proto_rawDesc = "" +
 	"\rtreasurystock\x18$ \x01(\tR\rtreasurystock\x12*\n" +
 	"\x10retainedearnings\x18% \x01(\tR\x10retainedearnings\x12 \n" +
 	"\vcommonstock\x18& \x01(\tR\vcommonstock\x12B\n" +
-	"\x1ccommonstocksharesoutstanding\x18' \x01(\tR\x1ccommonstocksharesoutstanding\"W\n" +
-	"\x1cMultipleBalanceSheetResponse\x127\n" +
-	"\bresponse\x18\x01 \x03(\v2\x1b.SingleBalanceSheetResponseR\bresponse\"\x96\x01\n" +
-	"\x14BalanceSheetResponse\x125\n" +
-	"\x06single\x18\x01 \x01(\v2\x1b.SingleBalanceSheetResponseH\x00R\x06single\x12;\n" +
-	"\bmultiple\x18\x02 \x01(\v2\x1d.MultipleBalanceSheetResponseH\x00R\bmultipleB\n" +
+	"\x1ccommonstocksharesoutstanding\x18' \x01(\tR\x1ccommonstocksharesoutstanding\"\\\n" +
+	"\x1cMultipleBalanceSheetResponse\x12<\n" +
+	"\bresponse\x18\x01 \x03(\v2 .data.SingleBalanceSheetResponseR\bresponse\"\xa0\x01\n" +
+	"\x14BalanceSheetResponse\x12:\n" +
+	"\x06single\x18\x01 \x01(\v2 .data.SingleBalanceSheetResponseH\x00R\x06single\x12@\n" +
+	"\bmultiple\x18\x02 \x01(\v2\".data.MultipleBalanceSheetResponseH\x00R\bmultipleB\n" +
 	"\n" +
 	"\bresponse\"\xaa\x0f\n" +
 	"\x16SingleCashFlowResponse\x12\x16\n" +
@@ -2198,19 +2198,19 @@ const file_proto_data_proto_rawDesc = "" +
 	"\x16stockbasedcompensation\x18\x1c \x01(\tR\x16stockbasedcompensation\x12F\n" +
 	"\x1echangeincashandcashequivalents\x18\x1d \x01(\tR\x1echangeincashandcashequivalents\x122\n" +
 	"\x14changeinexchangerate\x18\x1e \x01(\tR\x14changeinexchangerate\x12\x1c\n" +
-	"\tnetincome\x18\x1f \x01(\tR\tnetincome\"O\n" +
-	"\x18MultipleCashFlowResponse\x123\n" +
-	"\bresponse\x18\x01 \x03(\v2\x17.SingleCashFlowResponseR\bresponse\"\x8a\x01\n" +
-	"\x10CashFlowResponse\x121\n" +
-	"\x06single\x18\x01 \x01(\v2\x17.SingleCashFlowResponseH\x00R\x06single\x127\n" +
-	"\bmultiple\x18\x02 \x01(\v2\x19.MultipleCashFlowResponseH\x00R\bmultipleB\n" +
+	"\tnetincome\x18\x1f \x01(\tR\tnetincome\"T\n" +
+	"\x18MultipleCashFlowResponse\x128\n" +
+	"\bresponse\x18\x01 \x03(\v2\x1c.data.SingleCashFlowResponseR\bresponse\"\x94\x01\n" +
+	"\x10CashFlowResponse\x126\n" +
+	"\x06single\x18\x01 \x01(\v2\x1c.data.SingleCashFlowResponseH\x00R\x06single\x12<\n" +
+	"\bmultiple\x18\x02 \x01(\v2\x1e.data.MultipleCashFlowResponseH\x00R\bmultipleB\n" +
 	"\n" +
-	"\bresponse2\xe9\x01\n" +
-	"\vDataService\x12.\n" +
-	"\bOverview\x12\x0f.CompanyRequest\x1a\x11.OverviewResponse\x12>\n" +
-	"\x0fIncomeStatement\x12\x11.FinancialRequest\x1a\x18.IncomeStatementResponse\x128\n" +
-	"\fBalanceSheet\x12\x11.FinancialRequest\x1a\x15.BalanceSheetResponse\x120\n" +
-	"\bCashFlow\x12\x11.FinancialRequest\x1a\x11.CashFlowResponseB\rZ\v./../gen;pbb\x06proto3"
+	"\bresponse2\x91\x02\n" +
+	"\vDataService\x128\n" +
+	"\bOverview\x12\x14.data.CompanyRequest\x1a\x16.data.OverviewResponse\x12H\n" +
+	"\x0fIncomeStatement\x12\x16.data.FinancialRequest\x1a\x1d.data.IncomeStatementResponse\x12B\n" +
+	"\fBalanceSheet\x12\x16.data.FinancialRequest\x1a\x1a.data.BalanceSheetResponse\x12:\n" +
+	"\bCashFlow\x12\x16.data.FinancialRequest\x1a\x16.data.CashFlowResponseB\x10Z\x0e./proto/gen;pbb\x06proto3"
 
 var (
 	file_proto_data_proto_rawDescOnce sync.Once
@@ -2226,43 +2226,43 @@ func file_proto_data_proto_rawDescGZIP() []byte {
 
 var file_proto_data_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_proto_data_proto_goTypes = []any{
-	(*CompanyRequest)(nil),                  // 0: CompanyRequest
-	(*Quarter)(nil),                         // 1: Quarter
-	(*QuarterRange)(nil),                    // 2: QuarterRange
-	(*FinancialRequest)(nil),                // 3: FinancialRequest
-	(*OverviewResponse)(nil),                // 4: OverviewResponse
-	(*SingleIncomeStatementResponse)(nil),   // 5: SingleIncomeStatementResponse
-	(*MultipleIncomeStatementResponse)(nil), // 6: MultipleIncomeStatementResponse
-	(*IncomeStatementResponse)(nil),         // 7: IncomeStatementResponse
-	(*SingleBalanceSheetResponse)(nil),      // 8: SingleBalanceSheetResponse
-	(*MultipleBalanceSheetResponse)(nil),    // 9: MultipleBalanceSheetResponse
-	(*BalanceSheetResponse)(nil),            // 10: BalanceSheetResponse
-	(*SingleCashFlowResponse)(nil),          // 11: SingleCashFlowResponse
-	(*MultipleCashFlowResponse)(nil),        // 12: MultipleCashFlowResponse
-	(*CashFlowResponse)(nil),                // 13: CashFlowResponse
+	(*CompanyRequest)(nil),                  // 0: data.CompanyRequest
+	(*Quarter)(nil),                         // 1: data.Quarter
+	(*QuarterRange)(nil),                    // 2: data.QuarterRange
+	(*FinancialRequest)(nil),                // 3: data.FinancialRequest
+	(*OverviewResponse)(nil),                // 4: data.OverviewResponse
+	(*SingleIncomeStatementResponse)(nil),   // 5: data.SingleIncomeStatementResponse
+	(*MultipleIncomeStatementResponse)(nil), // 6: data.MultipleIncomeStatementResponse
+	(*IncomeStatementResponse)(nil),         // 7: data.IncomeStatementResponse
+	(*SingleBalanceSheetResponse)(nil),      // 8: data.SingleBalanceSheetResponse
+	(*MultipleBalanceSheetResponse)(nil),    // 9: data.MultipleBalanceSheetResponse
+	(*BalanceSheetResponse)(nil),            // 10: data.BalanceSheetResponse
+	(*SingleCashFlowResponse)(nil),          // 11: data.SingleCashFlowResponse
+	(*MultipleCashFlowResponse)(nil),        // 12: data.MultipleCashFlowResponse
+	(*CashFlowResponse)(nil),                // 13: data.CashFlowResponse
 }
 var file_proto_data_proto_depIdxs = []int32{
-	1,  // 0: QuarterRange.start:type_name -> Quarter
-	1,  // 1: QuarterRange.end:type_name -> Quarter
-	1,  // 2: FinancialRequest.date:type_name -> Quarter
-	2,  // 3: FinancialRequest.range:type_name -> QuarterRange
-	5,  // 4: MultipleIncomeStatementResponse.response:type_name -> SingleIncomeStatementResponse
-	5,  // 5: IncomeStatementResponse.single:type_name -> SingleIncomeStatementResponse
-	6,  // 6: IncomeStatementResponse.multiple:type_name -> MultipleIncomeStatementResponse
-	8,  // 7: MultipleBalanceSheetResponse.response:type_name -> SingleBalanceSheetResponse
-	8,  // 8: BalanceSheetResponse.single:type_name -> SingleBalanceSheetResponse
-	9,  // 9: BalanceSheetResponse.multiple:type_name -> MultipleBalanceSheetResponse
-	11, // 10: MultipleCashFlowResponse.response:type_name -> SingleCashFlowResponse
-	11, // 11: CashFlowResponse.single:type_name -> SingleCashFlowResponse
-	12, // 12: CashFlowResponse.multiple:type_name -> MultipleCashFlowResponse
-	0,  // 13: DataService.Overview:input_type -> CompanyRequest
-	3,  // 14: DataService.IncomeStatement:input_type -> FinancialRequest
-	3,  // 15: DataService.BalanceSheet:input_type -> FinancialRequest
-	3,  // 16: DataService.CashFlow:input_type -> FinancialRequest
-	4,  // 17: DataService.Overview:output_type -> OverviewResponse
-	7,  // 18: DataService.IncomeStatement:output_type -> IncomeStatementResponse
-	10, // 19: DataService.BalanceSheet:output_type -> BalanceSheetResponse
-	13, // 20: DataService.CashFlow:output_type -> CashFlowResponse
+	1,  // 0: data.QuarterRange.start:type_name -> data.Quarter
+	1,  // 1: data.QuarterRange.end:type_name -> data.Quarter
+	1,  // 2: data.FinancialRequest.date:type_name -> data.Quarter
+	2,  // 3: data.FinancialRequest.range:type_name -> data.QuarterRange
+	5,  // 4: data.MultipleIncomeStatementResponse.response:type_name -> data.SingleIncomeStatementResponse
+	5,  // 5: data.IncomeStatementResponse.single:type_name -> data.SingleIncomeStatementResponse
+	6,  // 6: data.IncomeStatementResponse.multiple:type_name -> data.MultipleIncomeStatementResponse
+	8,  // 7: data.MultipleBalanceSheetResponse.response:type_name -> data.SingleBalanceSheetResponse
+	8,  // 8: data.BalanceSheetResponse.single:type_name -> data.SingleBalanceSheetResponse
+	9,  // 9: data.BalanceSheetResponse.multiple:type_name -> data.MultipleBalanceSheetResponse
+	11, // 10: data.MultipleCashFlowResponse.response:type_name -> data.SingleCashFlowResponse
+	11, // 11: data.CashFlowResponse.single:type_name -> data.SingleCashFlowResponse
+	12, // 12: data.CashFlowResponse.multiple:type_name -> data.MultipleCashFlowResponse
+	0,  // 13: data.DataService.Overview:input_type -> data.CompanyRequest
+	3,  // 14: data.DataService.IncomeStatement:input_type -> data.FinancialRequest
+	3,  // 15: data.DataService.BalanceSheet:input_type -> data.FinancialRequest
+	3,  // 16: data.DataService.CashFlow:input_type -> data.FinancialRequest
+	4,  // 17: data.DataService.Overview:output_type -> data.OverviewResponse
+	7,  // 18: data.DataService.IncomeStatement:output_type -> data.IncomeStatementResponse
+	10, // 19: data.DataService.BalanceSheet:output_type -> data.BalanceSheetResponse
+	13, // 20: data.DataService.CashFlow:output_type -> data.CashFlowResponse
 	17, // [17:21] is the sub-list for method output_type
 	13, // [13:17] is the sub-list for method input_type
 	13, // [13:13] is the sub-list for extension type_name
