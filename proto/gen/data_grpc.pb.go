@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DataService_Overview_FullMethodName        = "/DataService/Overview"
-	DataService_IncomeStatement_FullMethodName = "/DataService/IncomeStatement"
-	DataService_BalanceSheet_FullMethodName    = "/DataService/BalanceSheet"
-	DataService_CashFlow_FullMethodName        = "/DataService/CashFlow"
+	DataService_Overview_FullMethodName        = "/data.DataService/Overview"
+	DataService_IncomeStatement_FullMethodName = "/data.DataService/IncomeStatement"
+	DataService_BalanceSheet_FullMethodName    = "/data.DataService/BalanceSheet"
+	DataService_CashFlow_FullMethodName        = "/data.DataService/CashFlow"
 )
 
 // DataServiceClient is the client API for DataService service.
@@ -210,7 +210,7 @@ func _DataService_CashFlow_Handler(srv interface{}, ctx context.Context, dec fun
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var DataService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "DataService",
+	ServiceName: "data.DataService",
 	HandlerType: (*DataServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

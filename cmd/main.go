@@ -4,8 +4,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"tspo/db"
 	"tspo/dtos"
+
+	"github.com/joho/godotenv"
 )
 
 func middleware(url string, model any) error {
@@ -45,7 +49,26 @@ func getData[T any](url string, model *T) (*T, error) {
 	return model, nil
 }
 
+func LoadEnv() error {
+	err := godotenv.Load("../.env")
+	if err != nil {
+		return fmt.Errorf("Ошибка загрузки файла .env: %w", err)
+	}
+	return nil
+}
+
 func main() {
+	err := LoadEnv()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = db.ConnectDB("DATABASE_URL")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.CloseDB()
+
 	overview, err := getData("https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo", &dtos.Overview{})
 	if err != nil {
 		return
@@ -65,6 +88,11 @@ func main() {
 	if err != nil {
 		return
 	}
+
+	_, _ = db.Insert(overview.ToDatabaseableSlice())
+	_, _ = db.Insert(incomeStatement.ToDatabaseableSlice())
+	_, _ = db.Insert(balanceSheet.ToDatabaseableSlice())
+	_, _ = db.Insert(cashFlow.ToDatabaseableSlice())
 
 	fmt.Println(overview)
 	fmt.Println(incomeStatement)
