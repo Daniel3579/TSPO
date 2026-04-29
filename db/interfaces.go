@@ -1,20 +1,26 @@
 package db
 
+type tableNameable interface {
+	TableName() string
+}
+
+type Databaseable interface {
+	tableNameable
+	Columns() []string
+	InsertableValues() []any
+	SelectableValues() []any
+}
+
 type Sliceable interface {
 	ToDatabaseableSlice() []Databaseable
 }
 
-type Databaseable interface {
-	TableName() string
-	Columns() []string
-	insertable
-	selectable
+type Requestable[T Databaseable] interface {
+	tableNameable
+	Params() (string, error)
+	GetDatabaseable() T
 }
 
-type insertable interface {
-	InsertableValues() []any
-}
-
-type selectable interface {
-	SelectableValues() []any
+type Grpcable interface {
+	ToResponse() any
 }

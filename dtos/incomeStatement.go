@@ -1,14 +1,18 @@
 package dtos
 
-import "tspo/db"
+import (
+	"tspo/db"
+	pb "tspo/proto/gen"
+)
 
+// Original structure
 type IncomeStatement struct {
 	Symbol           string          `json:"symbol"`
-	AnnualReports    []incomeReports `json:"annualReports"`
-	QuarterlyReports []incomeReports `json:"quarterlyReports"`
+	AnnualReports    []IncomeReports `json:"annualReports"`
+	QuarterlyReports []IncomeReports `json:"quarterlyReports"`
 }
 
-type incomeReports struct {
+type IncomeReports struct {
 	FiscalDateEnding                  string `json:"fiscalDateEnding"`
 	ReportedCurrency                  string `json:"reportedCurrency"`
 	GrossProfit                       string `json:"grossProfit"`
@@ -37,33 +41,25 @@ type incomeReports struct {
 	NetIncome                         string `json:"netIncome"`
 }
 
-func (s *IncomeStatement) ToDatabaseableSlice() []db.Databaseable {
-	symbol := s.Symbol
-	qurterlyReports := s.QuarterlyReports
-	slice := make([]db.Databaseable, len(qurterlyReports))
-
-	for i, v := range qurterlyReports {
-		instance := &incomeStatementDB{symbol, &v}
-		slice[i] = instance
-	}
-
-	return slice
-}
-
+// Wrapper
 // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-type incomeStatementDB struct {
-	Symbol string `json:"symbol"`
-	*incomeReports
+type IncomeStatementDB struct {
+	Symbol string
+	*IncomeReports
 }
 
+// tableNameable implemented
 // –––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-func (req *incomeStatementDB) TableName() string {
+func (s *IncomeStatementDB) TableName() string {
 	return "income_statement"
 }
 
-func (req *incomeStatementDB) Columns() []string {
+// Databaseable implemented
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+func (s *IncomeStatementDB) Columns() []string {
 	return []string{
 		"symbol",
 		"fiscalDateEnding",
@@ -95,148 +91,118 @@ func (req *incomeStatementDB) Columns() []string {
 	}
 }
 
-// –––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-func (req *incomeStatementDB) InsertableValues() []any {
+func (s *IncomeStatementDB) InsertableValues() []any {
 	return []any{
-		req.Symbol,
-		req.FiscalDateEnding,
-		req.ReportedCurrency,
-		req.GrossProfit,
-		req.TotalRevenue,
-		req.CostOfRevenue,
-		req.CostofGoodsAndServicesSold,
-		req.OperatingIncome,
-		req.SellingGeneralAndAdministrative,
-		req.ResearchAndDevelopment,
-		req.OperatingExpenses,
-		req.InvestmentIncomeNet,
-		req.NetInterestIncome,
-		req.InterestIncome,
-		req.InterestExpense,
-		req.NonInterestIncome,
-		req.OtherNonOperatingIncome,
-		req.Depreciation,
-		req.DepreciationAndAmortization,
-		req.IncomeBeforeTax,
-		req.IncomeTaxExpense,
-		req.InterestAndDebtExpense,
-		req.NetIncomeFromContinuingOperations,
-		req.ComprehensiveIncomeNetOfTax,
-		req.Ebit,
-		req.Ebitda,
-		req.NetIncome,
+		s.Symbol,
+		s.FiscalDateEnding,
+		s.ReportedCurrency,
+		s.GrossProfit,
+		s.TotalRevenue,
+		s.CostOfRevenue,
+		s.CostofGoodsAndServicesSold,
+		s.OperatingIncome,
+		s.SellingGeneralAndAdministrative,
+		s.ResearchAndDevelopment,
+		s.OperatingExpenses,
+		s.InvestmentIncomeNet,
+		s.NetInterestIncome,
+		s.InterestIncome,
+		s.InterestExpense,
+		s.NonInterestIncome,
+		s.OtherNonOperatingIncome,
+		s.Depreciation,
+		s.DepreciationAndAmortization,
+		s.IncomeBeforeTax,
+		s.IncomeTaxExpense,
+		s.InterestAndDebtExpense,
+		s.NetIncomeFromContinuingOperations,
+		s.ComprehensiveIncomeNetOfTax,
+		s.Ebit,
+		s.Ebitda,
+		s.NetIncome,
 	}
 }
 
-// –––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-func (res *incomeStatementDB) SelectableValues() []any {
+func (s *IncomeStatementDB) SelectableValues() []any {
 	return []any{
-		&res.Symbol,
-		&res.FiscalDateEnding,
-		&res.ReportedCurrency,
-		&res.GrossProfit,
-		&res.TotalRevenue,
-		&res.CostOfRevenue,
-		&res.CostofGoodsAndServicesSold,
-		&res.OperatingIncome,
-		&res.SellingGeneralAndAdministrative,
-		&res.ResearchAndDevelopment,
-		&res.OperatingExpenses,
-		&res.InvestmentIncomeNet,
-		&res.NetInterestIncome,
-		&res.InterestIncome,
-		&res.InterestExpense,
-		&res.NonInterestIncome,
-		&res.OtherNonOperatingIncome,
-		&res.Depreciation,
-		&res.DepreciationAndAmortization,
-		&res.IncomeBeforeTax,
-		&res.IncomeTaxExpense,
-		&res.InterestAndDebtExpense,
-		&res.NetIncomeFromContinuingOperations,
-		&res.ComprehensiveIncomeNetOfTax,
-		&res.Ebit,
-		&res.Ebitda,
-		&res.NetIncome,
+		&s.Symbol,
+		&s.FiscalDateEnding,
+		&s.ReportedCurrency,
+		&s.GrossProfit,
+		&s.TotalRevenue,
+		&s.CostOfRevenue,
+		&s.CostofGoodsAndServicesSold,
+		&s.OperatingIncome,
+		&s.SellingGeneralAndAdministrative,
+		&s.ResearchAndDevelopment,
+		&s.OperatingExpenses,
+		&s.InvestmentIncomeNet,
+		&s.NetInterestIncome,
+		&s.InterestIncome,
+		&s.InterestExpense,
+		&s.NonInterestIncome,
+		&s.OtherNonOperatingIncome,
+		&s.Depreciation,
+		&s.DepreciationAndAmortization,
+		&s.IncomeBeforeTax,
+		&s.IncomeTaxExpense,
+		&s.InterestAndDebtExpense,
+		&s.NetIncomeFromContinuingOperations,
+		&s.ComprehensiveIncomeNetOfTax,
+		&s.Ebit,
+		&s.Ebitda,
+		&s.NetIncome,
 	}
 }
 
-// func NewIncomeStatementDB(symbol string, vals ...any) *incomeStatementDB {
-// 	i := &incomeStatementDB{Symbol: symbol}
-//
-// 	i.FiscalDateEnding = vals[0].(string)
-// 	i.ReportedCurrency = vals[1].(string)
-// 	i.GrossProfit = vals[2].(string)
-// 	i.TotalRevenue = vals[3].(string)
-// 	i.CostOfRevenue = vals[4].(string)
-// 	i.CostofGoodsAndServicesSold = vals[5].(string)
-// 	i.OperatingIncome = vals[6].(string)
-// 	i.SellingGeneralAndAdministrative = vals[7].(string)
-// 	i.ResearchAndDevelopment = vals[8].(string)
-// 	i.OperatingExpenses = vals[9].(string)
-// 	i.InvestmentIncomeNet = vals[10].(string)
-// 	i.NetInterestIncome = vals[11].(string)
-// 	i.InterestIncome = vals[12].(string)
-// 	i.InterestExpense = vals[13].(string)
-// 	i.NonInterestIncome = vals[14].(string)
-// 	i.OtherNonOperatingIncome = vals[15].(string)
-// 	i.Depreciation = vals[16].(string)
-// 	i.DepreciationAndAmortization = vals[17].(string)
-// 	i.IncomeBeforeTax = vals[18].(string)
-// 	i.IncomeTaxExpense = vals[19].(string)
-// 	i.InterestAndDebtExpense = vals[20].(string)
-// 	i.NetIncomeFromContinuingOperations = vals[21].(string)
-// 	i.ComprehensiveIncomeNetOfTax = vals[22].(string)
-// 	i.Ebit = vals[23].(string)
-// 	i.Ebitda = vals[24].(string)
-// 	i.NetIncome = vals[25].(string)
-//
-// 	return i
-// }
+// Sliceable implemented
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-// func (s *incomeReports) getValues() []any {
-// 	return []any{
-// 		s.FiscalDateEnding,
-// 		s.ReportedCurrency,
-// 		s.GrossProfit,
-// 		s.TotalRevenue,
-// 		s.CostOfRevenue,
-// 		s.CostofGoodsAndServicesSold,
-// 		s.OperatingIncome,
-// 		s.SellingGeneralAndAdministrative,
-// 		s.ResearchAndDevelopment,
-// 		s.OperatingExpenses,
-// 		s.InvestmentIncomeNet,
-// 		s.NetInterestIncome,
-// 		s.InterestIncome,
-// 		s.InterestExpense,
-// 		s.NonInterestIncome,
-// 		s.OtherNonOperatingIncome,
-// 		s.Depreciation,
-// 		s.DepreciationAndAmortization,
-// 		s.IncomeBeforeTax,
-// 		s.IncomeTaxExpense,
-// 		s.InterestAndDebtExpense,
-// 		s.NetIncomeFromContinuingOperations,
-// 		s.ComprehensiveIncomeNetOfTax,
-// 		s.Ebit,
-// 		s.Ebitda,
-// 		s.NetIncome,
-// 	}
-// }
+func (s *IncomeStatement) ToDatabaseableSlice() []db.Databaseable {
+	symbol := s.Symbol
+	qurterlyReports := s.QuarterlyReports
+	slice := make([]db.Databaseable, len(qurterlyReports))
 
-// func (s *IncomeStatement) ToDatabaseableSlice() []Databaseable {
-// 	symbol := s.Symbol
-// 	qurterlyReports := s.QuarterlyReports
-// 	slice := make([]Databaseable, len(qurterlyReports))
-//
-// 	for i, v := range qurterlyReports {
-// 		values := v.getValues()
-// 		instance := NewIncomeStatementDB(symbol, values...)
-// 		slice[i] = instance
-// 	}
-//
-// 	return slice
-// }
+	for i, v := range qurterlyReports {
+		instance := &IncomeStatementDB{symbol, &v}
+		slice[i] = instance
+	}
+
+	return slice
+}
+
+// Grpcable implemented
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+func (s *IncomeStatementDB) ToResponse() any {
+	v := s.InsertableValues()
+	return &pb.SingleIncomeStatementResponse{
+		Symbol:                            v[0].(string),
+		Fiscaldateending:                  v[1].(string),
+		Reportedcurrency:                  v[2].(string),
+		Grossprofit:                       v[3].(string),
+		Totalrevenue:                      v[4].(string),
+		Costofrevenue:                     v[5].(string),
+		Costofgoodsandservicessold:        v[6].(string),
+		Operatingincome:                   v[7].(string),
+		Sellinggeneralandadministrative:   v[8].(string),
+		Researchanddevelopment:            v[9].(string),
+		Operatingexpenses:                 v[10].(string),
+		Investmentincomenet:               v[11].(string),
+		Netinterestincome:                 v[12].(string),
+		Interestincome:                    v[13].(string),
+		Interestexpense:                   v[14].(string),
+		Noninterestincome:                 v[15].(string),
+		Othernonoperatingincome:           v[16].(string),
+		Depreciation:                      v[17].(string),
+		Depreciationandamortization:       v[18].(string),
+		Incomebeforetax:                   v[19].(string),
+		Incometaxexpense:                  v[20].(string),
+		Interestanddebtexpense:            v[21].(string),
+		Netincomefromcontinuingoperations: v[22].(string),
+		Comprehensiveincomenetoftax:       v[23].(string),
+		Ebit:                              v[24].(string),
+		Ebitda:                            v[25].(string),
+		Netincome:                         v[26].(string),
+	}
+}

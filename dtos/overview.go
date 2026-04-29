@@ -2,8 +2,10 @@ package dtos
 
 import (
 	"tspo/db"
+	pb "tspo/proto/gen"
 )
 
+// Original structure
 type Overview struct {
 	Symbol                     string `json:"Symbol"`
 	AssetType                  string `json:"AssetType"`
@@ -62,23 +64,24 @@ type Overview struct {
 	ExDividendDate             string `json:"ExDividendDate"`
 }
 
-func (s *Overview) ToDatabaseableSlice() []db.Databaseable {
-	return []db.Databaseable{&overviewDB{s}}
-}
-
+// Wrapper
 // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-type overviewDB struct {
+type OverviewDB struct {
 	*Overview
 }
 
+// tableNameable implemented
 // ––––––––––––––––––––––––––––––––––––––––––––––
 
-func (req *overviewDB) TableName() string {
+func (s *OverviewDB) TableName() string {
 	return "overview"
 }
 
-func (req *overviewDB) Columns() []string {
+// Databaseable implemented
+// ––––––––––––––––––––––––––––––––––––––––––––––
+
+func (s *OverviewDB) Columns() []string {
 	return []string{
 		"symbol",
 		"assetType",
@@ -138,126 +141,193 @@ func (req *overviewDB) Columns() []string {
 	}
 }
 
-// ––––––––––––––––––––––––––––––––––––––––––––––
-
-func (req *overviewDB) InsertableValues() []any {
+func (s *OverviewDB) InsertableValues() []any {
 	return []any{
-		req.Symbol,
-		req.AssetType,
-		req.Name,
-		req.Description,
-		req.CIK,
-		req.Exchange,
-		req.Currency,
-		req.Country,
-		req.Sector,
-		req.Industry,
-		req.Address,
-		req.OfficialSite,
-		req.FiscalYearEnd,
-		req.LatestQuarter,
-		req.MarketCapitalization,
-		req.EBITDA,
-		req.PERatio,
-		req.PEGRatio,
-		req.BookValue,
-		req.DividendPerShare,
-		req.DividendYield,
-		req.EPS,
-		req.RevenuePerShareTTM,
-		req.ProfitMargin,
-		req.OperatingMarginTTM,
-		req.ReturnOnAssetsTTM,
-		req.ReturnOnEquityTTM,
-		req.RevenueTTM,
-		req.GrossProfitTTM,
-		req.DilutedEPSTTM,
-		req.QuarterlyEarningsGrowthYOY,
-		req.QuarterlyRevenueGrowthYOY,
-		req.AnalystTargetPrice,
-		req.AnalystRatingStrongBuy,
-		req.AnalystRatingBuy,
-		req.AnalystRatingHold,
-		req.AnalystRatingSell,
-		req.AnalystRatingStrongSell,
-		req.TrailingPE,
-		req.ForwardPE,
-		req.PriceToSalesRatioTTM,
-		req.PriceToBookRatio,
-		req.EVToRevenue,
-		req.EVToEBITDA,
-		req.Beta,
-		req.WeekHigh52,
-		req.WeekLow52,
-		req.DayMovingAverage50,
-		req.DayMovingAverage200,
-		req.SharesOutstanding,
-		req.SharesFloat,
-		req.PercentInsiders,
-		req.PercentInstitutions,
-		req.DividendDate,
-		req.ExDividendDate,
+		s.Symbol,
+		s.AssetType,
+		s.Name,
+		s.Description,
+		s.CIK,
+		s.Exchange,
+		s.Currency,
+		s.Country,
+		s.Sector,
+		s.Industry,
+		s.Address,
+		s.OfficialSite,
+		s.FiscalYearEnd,
+		s.LatestQuarter,
+		s.MarketCapitalization,
+		s.EBITDA,
+		s.PERatio,
+		s.PEGRatio,
+		s.BookValue,
+		s.DividendPerShare,
+		s.DividendYield,
+		s.EPS,
+		s.RevenuePerShareTTM,
+		s.ProfitMargin,
+		s.OperatingMarginTTM,
+		s.ReturnOnAssetsTTM,
+		s.ReturnOnEquityTTM,
+		s.RevenueTTM,
+		s.GrossProfitTTM,
+		s.DilutedEPSTTM,
+		s.QuarterlyEarningsGrowthYOY,
+		s.QuarterlyRevenueGrowthYOY,
+		s.AnalystTargetPrice,
+		s.AnalystRatingStrongBuy,
+		s.AnalystRatingBuy,
+		s.AnalystRatingHold,
+		s.AnalystRatingSell,
+		s.AnalystRatingStrongSell,
+		s.TrailingPE,
+		s.ForwardPE,
+		s.PriceToSalesRatioTTM,
+		s.PriceToBookRatio,
+		s.EVToRevenue,
+		s.EVToEBITDA,
+		s.Beta,
+		s.WeekHigh52,
+		s.WeekLow52,
+		s.DayMovingAverage50,
+		s.DayMovingAverage200,
+		s.SharesOutstanding,
+		s.SharesFloat,
+		s.PercentInsiders,
+		s.PercentInstitutions,
+		s.DividendDate,
+		s.ExDividendDate,
 	}
 }
 
-// ––––––––––––––––––––––––––––––––––––––––––––––
-
-func (res *overviewDB) SelectableValues() []any {
+func (s *OverviewDB) SelectableValues() []any {
 	return []any{
-		&res.Symbol,
-		&res.AssetType,
-		&res.Name,
-		&res.Description,
-		&res.CIK,
-		&res.Exchange,
-		&res.Currency,
-		&res.Country,
-		&res.Sector,
-		&res.Industry,
-		&res.Address,
-		&res.OfficialSite,
-		&res.FiscalYearEnd,
-		&res.LatestQuarter,
-		&res.MarketCapitalization,
-		&res.EBITDA,
-		&res.PERatio,
-		&res.PEGRatio,
-		&res.BookValue,
-		&res.DividendPerShare,
-		&res.DividendYield,
-		&res.EPS,
-		&res.RevenuePerShareTTM,
-		&res.ProfitMargin,
-		&res.OperatingMarginTTM,
-		&res.ReturnOnAssetsTTM,
-		&res.ReturnOnEquityTTM,
-		&res.RevenueTTM,
-		&res.GrossProfitTTM,
-		&res.DilutedEPSTTM,
-		&res.QuarterlyEarningsGrowthYOY,
-		&res.QuarterlyRevenueGrowthYOY,
-		&res.AnalystTargetPrice,
-		&res.AnalystRatingStrongBuy,
-		&res.AnalystRatingBuy,
-		&res.AnalystRatingHold,
-		&res.AnalystRatingSell,
-		&res.AnalystRatingStrongSell,
-		&res.TrailingPE,
-		&res.ForwardPE,
-		&res.PriceToSalesRatioTTM,
-		&res.PriceToBookRatio,
-		&res.EVToRevenue,
-		&res.EVToEBITDA,
-		&res.Beta,
-		&res.WeekHigh52,
-		&res.WeekLow52,
-		&res.DayMovingAverage50,
-		&res.DayMovingAverage200,
-		&res.SharesOutstanding,
-		&res.SharesFloat,
-		&res.PercentInsiders,
-		&res.PercentInstitutions,
-		&res.DividendDate,
-		&res.ExDividendDate,
+		&s.Symbol,
+		&s.AssetType,
+		&s.Name,
+		&s.Description,
+		&s.CIK,
+		&s.Exchange,
+		&s.Currency,
+		&s.Country,
+		&s.Sector,
+		&s.Industry,
+		&s.Address,
+		&s.OfficialSite,
+		&s.FiscalYearEnd,
+		&s.LatestQuarter,
+		&s.MarketCapitalization,
+		&s.EBITDA,
+		&s.PERatio,
+		&s.PEGRatio,
+		&s.BookValue,
+		&s.DividendPerShare,
+		&s.DividendYield,
+		&s.EPS,
+		&s.RevenuePerShareTTM,
+		&s.ProfitMargin,
+		&s.OperatingMarginTTM,
+		&s.ReturnOnAssetsTTM,
+		&s.ReturnOnEquityTTM,
+		&s.RevenueTTM,
+		&s.GrossProfitTTM,
+		&s.DilutedEPSTTM,
+		&s.QuarterlyEarningsGrowthYOY,
+		&s.QuarterlyRevenueGrowthYOY,
+		&s.AnalystTargetPrice,
+		&s.AnalystRatingStrongBuy,
+		&s.AnalystRatingBuy,
+		&s.AnalystRatingHold,
+		&s.AnalystRatingSell,
+		&s.AnalystRatingStrongSell,
+		&s.TrailingPE,
+		&s.ForwardPE,
+		&s.PriceToSalesRatioTTM,
+		&s.PriceToBookRatio,
+		&s.EVToRevenue,
+		&s.EVToEBITDA,
+		&s.Beta,
+		&s.WeekHigh52,
+		&s.WeekLow52,
+		&s.DayMovingAverage50,
+		&s.DayMovingAverage200,
+		&s.SharesOutstanding,
+		&s.SharesFloat,
+		&s.PercentInsiders,
+		&s.PercentInstitutions,
+		&s.DividendDate,
+		&s.ExDividendDate,
+	}
+}
+
+// Sliceable implemented
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+func (s *Overview) ToDatabaseableSlice() []db.Databaseable {
+	return []db.Databaseable{&OverviewDB{s}}
+}
+
+// Grpcable implemented
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+func (s *OverviewDB) ToResponse() any {
+	v := s.InsertableValues()
+	return &pb.OverviewResponse{
+		Symbol:                     v[0].(string),
+		Assettype:                  v[1].(string),
+		Name:                       v[2].(string),
+		Description:                v[3].(string),
+		Cik:                        v[4].(string),
+		Exchange:                   v[5].(string),
+		Currency:                   v[6].(string),
+		Country:                    v[7].(string),
+		Sector:                     v[8].(string),
+		Industry:                   v[9].(string),
+		Address:                    v[10].(string),
+		Officialsite:               v[11].(string),
+		Fiscalyearend:              v[12].(string),
+		Latestquarter:              v[13].(string),
+		Marketcapitalization:       v[14].(string),
+		Ebitda:                     v[15].(string),
+		Peratio:                    v[16].(string),
+		Pegratio:                   v[17].(string),
+		Bookvalue:                  v[18].(string),
+		Dividendpershare:           v[19].(string),
+		Dividendyield:              v[20].(string),
+		Eps:                        v[21].(string),
+		Revenuepersharettm:         v[22].(string),
+		Profitmargin:               v[23].(string),
+		Operatingmarginttm:         v[24].(string),
+		Returnonassetsttm:          v[25].(string),
+		Returnonequityttm:          v[26].(string),
+		Revenuettm:                 v[27].(string),
+		Grossprofitttm:             v[28].(string),
+		Dilutedepsttm:              v[29].(string),
+		Quarterlyearningsgrowthyoy: v[30].(string),
+		Quarterlyrevenuegrowthyoy:  v[31].(string),
+		Analysttargetprice:         v[32].(string),
+		Analystratingstrongbuy:     v[33].(string),
+		Analystratingbuy:           v[34].(string),
+		Analystratinghold:          v[35].(string),
+		Analystratingsell:          v[36].(string),
+		Analystratingstrongsell:    v[37].(string),
+		Trailingpe:                 v[38].(string),
+		Forwardpe:                  v[39].(string),
+		Pricetosalesratiottm:       v[40].(string),
+		Pricetobookratio:           v[41].(string),
+		Evtorevenue:                v[42].(string),
+		Evtoebitda:                 v[43].(string),
+		Beta:                       v[44].(string),
+		Weekhigh52:                 v[45].(string),
+		Weeklow52:                  v[46].(string),
+		Daymovingaverage50:         v[47].(string),
+		Daymovingaverage200:        v[48].(string),
+		Sharesoutstanding:          v[49].(string),
+		Sharesfloat:                v[50].(string),
+		Percentinsiders:            v[51].(string),
+		Percentinstitutions:        v[52].(string),
+		Dividenddate:               v[53].(string),
+		Exdividenddate:             v[54].(string),
 	}
 }

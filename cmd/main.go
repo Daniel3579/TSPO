@@ -5,11 +5,16 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net"
 	"net/http"
+	"os"
 	"tspo/db"
 	"tspo/dtos"
+	"tspo/handlers"
+	pb "tspo/proto/gen"
 
 	"github.com/joho/godotenv"
+	"google.golang.org/grpc"
 )
 
 func middleware(url string, model any) error {
@@ -50,11 +55,59 @@ func getData[T any](url string, model *T) (*T, error) {
 }
 
 func LoadEnv() error {
-	err := godotenv.Load("../.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		return fmt.Errorf("Ошибка загрузки файла .env: %w", err)
 	}
 	return nil
+}
+
+func GetLinks(apikey string, symbol string) []string {
+	return []string{
+		fmt.Sprintf("https://www.alphavantage.co/query?function=OVERVIEW&symbol=%s&apikey=%s", symbol, apikey),
+		fmt.Sprintf("https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol=%s&apikey=%s", symbol, apikey),
+		fmt.Sprintf("https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol=%s&apikey=%s", symbol, apikey),
+		fmt.Sprintf("https://www.alphavantage.co/query?function=CASH_FLOW&symbol=%s&apikey=%s", symbol, apikey),
+	}
+}
+
+func Process(links []string) {
+	overview, err := getData(links[0], &dtos.Overview{})
+	if err != nil {
+		return
+	}
+
+	incomeStatement, err := getData(links[1], &dtos.IncomeStatement{})
+	if err != nil {
+		return
+	}
+
+	balanceSheet, err := getData(links[2], &dtos.BalanceSheet{})
+	if err != nil {
+		return
+	}
+
+	cashFlow, err := getData(links[3], &dtos.CashFlow{})
+	if err != nil {
+		return
+	}
+
+	_, err = db.Insert(overview.ToDatabaseableSlice())
+	if err != nil {
+		print("1")
+	}
+	_, err = db.Insert(incomeStatement.ToDatabaseableSlice())
+	if err != nil {
+		print("2")
+	}
+	_, err = db.Insert(balanceSheet.ToDatabaseableSlice())
+	if err != nil {
+		print("3")
+	}
+	_, err = db.Insert(cashFlow.ToDatabaseableSlice())
+	if err != nil {
+		print("4")
+	}
 }
 
 func main() {
@@ -69,33 +122,30 @@ func main() {
 	}
 	defer db.CloseDB()
 
-	overview, err := getData("https://www.alphavantage.co/query?function=OVERVIEW&symbol=IBM&apikey=demo", &dtos.Overview{})
-	if err != nil {
-		return
+	// apikey := "YR4YSSIHBCLS3OJM"
+	// Process(GetLinks(apikey, "AAPL"))
+	// Process(GetLinks(apikey, "AMZN"))
+	// Process(GetLinks(apikey, "ADBE"))
+
+	// Создаем новый gRPC сервер
+	grpcServer := grpc.NewServer()
+
+	// Регистрация сервиса
+	pb.RegisterDataServiceServer(grpcServer, &handlers.Server{})
+
+	// Создаем сетевой слушатель
+	var port string = os.Getenv("AUTH_PORT")
+	if port == "" {
+		log.Fatal("PORT environment variable is not set")
 	}
 
-	incomeStatement, err := getData("https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol=IBM&apikey=demo", &dtos.IncomeStatement{})
+	lis, err := net.Listen("tcp", port)
 	if err != nil {
-		return
+		log.Fatalf("failed to listen: %v", err)
 	}
 
-	balanceSheet, err := getData("https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol=IBM&apikey=demo", &dtos.BalanceSheet{})
-	if err != nil {
-		return
+	log.Println("Auth gRPC server is running at " + port)
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
 	}
-
-	cashFlow, err := getData("https://www.alphavantage.co/query?function=CASH_FLOW&symbol=IBM&apikey=demo", &dtos.CashFlow{})
-	if err != nil {
-		return
-	}
-
-	_, _ = db.Insert(overview.ToDatabaseableSlice())
-	_, _ = db.Insert(incomeStatement.ToDatabaseableSlice())
-	_, _ = db.Insert(balanceSheet.ToDatabaseableSlice())
-	_, _ = db.Insert(cashFlow.ToDatabaseableSlice())
-
-	fmt.Println(overview)
-	fmt.Println(incomeStatement)
-	fmt.Println(balanceSheet)
-	fmt.Println(cashFlow)
 }

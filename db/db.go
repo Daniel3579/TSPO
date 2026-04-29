@@ -81,6 +81,45 @@ func Insert[T Databaseable](req []T) ([]T, error) {
 	return req, nil
 }
 
-func Select[T Databaseable](req []T) ([]T, error) {
-	return nil, nil
+func Select[T Requestable[K], K Databaseable](req T) ([]K, error) {
+	tableName := req.TableName()
+	params, err := req.Params()
+	if err != nil {
+		return nil, fmt.Errorf("Ошибка запроса: %w", err)
+	}
+
+	query := fmt.Sprintf("Select * from %s %s;",
+		pq.QuoteIdentifier(tableName),
+		params,
+	)
+
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, fmt.Errorf("Ошибка при начале транзакции: %w", err)
+	}
+	defer tx.Rollback()
+
+	var res []K = []K{}
+
+	rows, err := db.Query(query)
+	if err != nil {
+		return nil, fmt.Errorf("Не удалось получить задачи: %w", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		row := req.GetDatabaseable()
+		selectableValues := row.SelectableValues()
+
+		if err := rows.Scan(selectableValues...); err != nil {
+			return nil, fmt.Errorf("Не удалось просканировать строку: %w", err)
+		}
+		res = append(res, row)
+	}
+
+	if err = tx.Commit(); err != nil {
+		return nil, fmt.Errorf("Ошибка при коммите транзакции: %w", err)
+	}
+
+	return res, nil
 }

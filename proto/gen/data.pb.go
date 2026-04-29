@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v7.34.1
-// source: proto/data.proto
+// source: data.proto
 
 package pb
 
@@ -23,14 +23,14 @@ const (
 
 type CompanyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Symbol        string                 `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CompanyRequest) Reset() {
 	*x = CompanyRequest{}
-	mi := &file_proto_data_proto_msgTypes[0]
+	mi := &file_data_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +42,7 @@ func (x *CompanyRequest) String() string {
 func (*CompanyRequest) ProtoMessage() {}
 
 func (x *CompanyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[0]
+	mi := &file_data_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,12 +55,12 @@ func (x *CompanyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompanyRequest.ProtoReflect.Descriptor instead.
 func (*CompanyRequest) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{0}
+	return file_data_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CompanyRequest) GetName() string {
+func (x *CompanyRequest) GetSymbol() string {
 	if x != nil {
-		return x.Name
+		return x.Symbol
 	}
 	return ""
 }
@@ -75,7 +75,7 @@ type Quarter struct {
 
 func (x *Quarter) Reset() {
 	*x = Quarter{}
-	mi := &file_proto_data_proto_msgTypes[1]
+	mi := &file_data_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -87,7 +87,7 @@ func (x *Quarter) String() string {
 func (*Quarter) ProtoMessage() {}
 
 func (x *Quarter) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[1]
+	mi := &file_data_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -100,7 +100,7 @@ func (x *Quarter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Quarter.ProtoReflect.Descriptor instead.
 func (*Quarter) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{1}
+	return file_data_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Quarter) GetYear() int32 {
@@ -127,7 +127,7 @@ type QuarterRange struct {
 
 func (x *QuarterRange) Reset() {
 	*x = QuarterRange{}
-	mi := &file_proto_data_proto_msgTypes[2]
+	mi := &file_data_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -139,7 +139,7 @@ func (x *QuarterRange) String() string {
 func (*QuarterRange) ProtoMessage() {}
 
 func (x *QuarterRange) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[2]
+	mi := &file_data_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -152,7 +152,7 @@ func (x *QuarterRange) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use QuarterRange.ProtoReflect.Descriptor instead.
 func (*QuarterRange) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{2}
+	return file_data_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *QuarterRange) GetStart() *Quarter {
@@ -170,8 +170,8 @@ func (x *QuarterRange) GetEnd() *Quarter {
 }
 
 type FinancialRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	Name  string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Symbol string                 `protobuf:"bytes,1,opt,name=symbol,proto3" json:"symbol,omitempty"`
 	// Types that are valid to be assigned to Timeframe:
 	//
 	//	*FinancialRequest_Date
@@ -183,7 +183,7 @@ type FinancialRequest struct {
 
 func (x *FinancialRequest) Reset() {
 	*x = FinancialRequest{}
-	mi := &file_proto_data_proto_msgTypes[3]
+	mi := &file_data_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -195,7 +195,7 @@ func (x *FinancialRequest) String() string {
 func (*FinancialRequest) ProtoMessage() {}
 
 func (x *FinancialRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[3]
+	mi := &file_data_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -208,12 +208,12 @@ func (x *FinancialRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FinancialRequest.ProtoReflect.Descriptor instead.
 func (*FinancialRequest) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{3}
+	return file_data_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *FinancialRequest) GetName() string {
+func (x *FinancialRequest) GetSymbol() string {
 	if x != nil {
-		return x.Name
+		return x.Symbol
 	}
 	return ""
 }
@@ -322,7 +322,7 @@ type OverviewResponse struct {
 
 func (x *OverviewResponse) Reset() {
 	*x = OverviewResponse{}
-	mi := &file_proto_data_proto_msgTypes[4]
+	mi := &file_data_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -334,7 +334,7 @@ func (x *OverviewResponse) String() string {
 func (*OverviewResponse) ProtoMessage() {}
 
 func (x *OverviewResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[4]
+	mi := &file_data_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -347,7 +347,7 @@ func (x *OverviewResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use OverviewResponse.ProtoReflect.Descriptor instead.
 func (*OverviewResponse) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{4}
+	return file_data_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *OverviewResponse) GetSymbol() string {
@@ -770,7 +770,7 @@ type SingleIncomeStatementResponse struct {
 
 func (x *SingleIncomeStatementResponse) Reset() {
 	*x = SingleIncomeStatementResponse{}
-	mi := &file_proto_data_proto_msgTypes[5]
+	mi := &file_data_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -782,7 +782,7 @@ func (x *SingleIncomeStatementResponse) String() string {
 func (*SingleIncomeStatementResponse) ProtoMessage() {}
 
 func (x *SingleIncomeStatementResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[5]
+	mi := &file_data_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -795,7 +795,7 @@ func (x *SingleIncomeStatementResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SingleIncomeStatementResponse.ProtoReflect.Descriptor instead.
 func (*SingleIncomeStatementResponse) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{5}
+	return file_data_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *SingleIncomeStatementResponse) GetSymbol() string {
@@ -996,7 +996,7 @@ type MultipleIncomeStatementResponse struct {
 
 func (x *MultipleIncomeStatementResponse) Reset() {
 	*x = MultipleIncomeStatementResponse{}
-	mi := &file_proto_data_proto_msgTypes[6]
+	mi := &file_data_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1008,7 +1008,7 @@ func (x *MultipleIncomeStatementResponse) String() string {
 func (*MultipleIncomeStatementResponse) ProtoMessage() {}
 
 func (x *MultipleIncomeStatementResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[6]
+	mi := &file_data_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1021,7 +1021,7 @@ func (x *MultipleIncomeStatementResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MultipleIncomeStatementResponse.ProtoReflect.Descriptor instead.
 func (*MultipleIncomeStatementResponse) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{6}
+	return file_data_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *MultipleIncomeStatementResponse) GetResponse() []*SingleIncomeStatementResponse {
@@ -1044,7 +1044,7 @@ type IncomeStatementResponse struct {
 
 func (x *IncomeStatementResponse) Reset() {
 	*x = IncomeStatementResponse{}
-	mi := &file_proto_data_proto_msgTypes[7]
+	mi := &file_data_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1056,7 +1056,7 @@ func (x *IncomeStatementResponse) String() string {
 func (*IncomeStatementResponse) ProtoMessage() {}
 
 func (x *IncomeStatementResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[7]
+	mi := &file_data_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1069,7 +1069,7 @@ func (x *IncomeStatementResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IncomeStatementResponse.ProtoReflect.Descriptor instead.
 func (*IncomeStatementResponse) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{7}
+	return file_data_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *IncomeStatementResponse) GetResponse() isIncomeStatementResponse_Response {
@@ -1160,7 +1160,7 @@ type SingleBalanceSheetResponse struct {
 
 func (x *SingleBalanceSheetResponse) Reset() {
 	*x = SingleBalanceSheetResponse{}
-	mi := &file_proto_data_proto_msgTypes[8]
+	mi := &file_data_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1172,7 +1172,7 @@ func (x *SingleBalanceSheetResponse) String() string {
 func (*SingleBalanceSheetResponse) ProtoMessage() {}
 
 func (x *SingleBalanceSheetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[8]
+	mi := &file_data_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1185,7 +1185,7 @@ func (x *SingleBalanceSheetResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SingleBalanceSheetResponse.ProtoReflect.Descriptor instead.
 func (*SingleBalanceSheetResponse) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{8}
+	return file_data_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *SingleBalanceSheetResponse) GetSymbol() string {
@@ -1470,7 +1470,7 @@ type MultipleBalanceSheetResponse struct {
 
 func (x *MultipleBalanceSheetResponse) Reset() {
 	*x = MultipleBalanceSheetResponse{}
-	mi := &file_proto_data_proto_msgTypes[9]
+	mi := &file_data_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1482,7 +1482,7 @@ func (x *MultipleBalanceSheetResponse) String() string {
 func (*MultipleBalanceSheetResponse) ProtoMessage() {}
 
 func (x *MultipleBalanceSheetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[9]
+	mi := &file_data_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1495,7 +1495,7 @@ func (x *MultipleBalanceSheetResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MultipleBalanceSheetResponse.ProtoReflect.Descriptor instead.
 func (*MultipleBalanceSheetResponse) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{9}
+	return file_data_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *MultipleBalanceSheetResponse) GetResponse() []*SingleBalanceSheetResponse {
@@ -1518,7 +1518,7 @@ type BalanceSheetResponse struct {
 
 func (x *BalanceSheetResponse) Reset() {
 	*x = BalanceSheetResponse{}
-	mi := &file_proto_data_proto_msgTypes[10]
+	mi := &file_data_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1530,7 +1530,7 @@ func (x *BalanceSheetResponse) String() string {
 func (*BalanceSheetResponse) ProtoMessage() {}
 
 func (x *BalanceSheetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[10]
+	mi := &file_data_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1543,7 +1543,7 @@ func (x *BalanceSheetResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BalanceSheetResponse.ProtoReflect.Descriptor instead.
 func (*BalanceSheetResponse) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{10}
+	return file_data_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *BalanceSheetResponse) GetResponse() isBalanceSheetResponse_Response {
@@ -1626,7 +1626,7 @@ type SingleCashFlowResponse struct {
 
 func (x *SingleCashFlowResponse) Reset() {
 	*x = SingleCashFlowResponse{}
-	mi := &file_proto_data_proto_msgTypes[11]
+	mi := &file_data_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1638,7 +1638,7 @@ func (x *SingleCashFlowResponse) String() string {
 func (*SingleCashFlowResponse) ProtoMessage() {}
 
 func (x *SingleCashFlowResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[11]
+	mi := &file_data_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1651,7 +1651,7 @@ func (x *SingleCashFlowResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SingleCashFlowResponse.ProtoReflect.Descriptor instead.
 func (*SingleCashFlowResponse) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{11}
+	return file_data_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *SingleCashFlowResponse) GetSymbol() string {
@@ -1880,7 +1880,7 @@ type MultipleCashFlowResponse struct {
 
 func (x *MultipleCashFlowResponse) Reset() {
 	*x = MultipleCashFlowResponse{}
-	mi := &file_proto_data_proto_msgTypes[12]
+	mi := &file_data_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1892,7 +1892,7 @@ func (x *MultipleCashFlowResponse) String() string {
 func (*MultipleCashFlowResponse) ProtoMessage() {}
 
 func (x *MultipleCashFlowResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[12]
+	mi := &file_data_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1905,7 +1905,7 @@ func (x *MultipleCashFlowResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MultipleCashFlowResponse.ProtoReflect.Descriptor instead.
 func (*MultipleCashFlowResponse) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{12}
+	return file_data_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *MultipleCashFlowResponse) GetResponse() []*SingleCashFlowResponse {
@@ -1928,7 +1928,7 @@ type CashFlowResponse struct {
 
 func (x *CashFlowResponse) Reset() {
 	*x = CashFlowResponse{}
-	mi := &file_proto_data_proto_msgTypes[13]
+	mi := &file_data_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1940,7 +1940,7 @@ func (x *CashFlowResponse) String() string {
 func (*CashFlowResponse) ProtoMessage() {}
 
 func (x *CashFlowResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_data_proto_msgTypes[13]
+	mi := &file_data_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1953,7 +1953,7 @@ func (x *CashFlowResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CashFlowResponse.ProtoReflect.Descriptor instead.
 func (*CashFlowResponse) Descriptor() ([]byte, []int) {
-	return file_proto_data_proto_rawDescGZIP(), []int{13}
+	return file_data_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *CashFlowResponse) GetResponse() isCashFlowResponse_Response {
@@ -1997,21 +1997,22 @@ func (*CashFlowResponse_Single) isCashFlowResponse_Response() {}
 
 func (*CashFlowResponse_Multiple) isCashFlowResponse_Response() {}
 
-var File_proto_data_proto protoreflect.FileDescriptor
+var File_data_proto protoreflect.FileDescriptor
 
-const file_proto_data_proto_rawDesc = "" +
+const file_data_proto_rawDesc = "" +
 	"\n" +
-	"\x10proto/data.proto\x12\x04data\"$\n" +
-	"\x0eCompanyRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"7\n" +
+	"\n" +
+	"data.proto\x12\x04data\"(\n" +
+	"\x0eCompanyRequest\x12\x16\n" +
+	"\x06symbol\x18\x01 \x01(\tR\x06symbol\"7\n" +
 	"\aQuarter\x12\x12\n" +
 	"\x04year\x18\x01 \x01(\x05R\x04year\x12\x18\n" +
 	"\aquarter\x18\x02 \x01(\x05R\aquarter\"T\n" +
 	"\fQuarterRange\x12#\n" +
 	"\x05start\x18\x01 \x01(\v2\r.data.QuarterR\x05start\x12\x1f\n" +
-	"\x03end\x18\x02 \x01(\v2\r.data.QuarterR\x03end\"\x84\x01\n" +
-	"\x10FinancialRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12#\n" +
+	"\x03end\x18\x02 \x01(\v2\r.data.QuarterR\x03end\"\x88\x01\n" +
+	"\x10FinancialRequest\x12\x16\n" +
+	"\x06symbol\x18\x01 \x01(\tR\x06symbol\x12#\n" +
 	"\x04date\x18\x02 \x01(\v2\r.data.QuarterH\x00R\x04date\x12*\n" +
 	"\x05range\x18\x03 \x01(\v2\x12.data.QuarterRangeH\x00R\x05rangeB\v\n" +
 	"\ttimeframe\"\xa6\x10\n" +
@@ -2213,19 +2214,19 @@ const file_proto_data_proto_rawDesc = "" +
 	"\bCashFlow\x12\x16.data.FinancialRequest\x1a\x16.data.CashFlowResponseB\x10Z\x0e./proto/gen;pbb\x06proto3"
 
 var (
-	file_proto_data_proto_rawDescOnce sync.Once
-	file_proto_data_proto_rawDescData []byte
+	file_data_proto_rawDescOnce sync.Once
+	file_data_proto_rawDescData []byte
 )
 
-func file_proto_data_proto_rawDescGZIP() []byte {
-	file_proto_data_proto_rawDescOnce.Do(func() {
-		file_proto_data_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_data_proto_rawDesc), len(file_proto_data_proto_rawDesc)))
+func file_data_proto_rawDescGZIP() []byte {
+	file_data_proto_rawDescOnce.Do(func() {
+		file_data_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_data_proto_rawDesc), len(file_data_proto_rawDesc)))
 	})
-	return file_proto_data_proto_rawDescData
+	return file_data_proto_rawDescData
 }
 
-var file_proto_data_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
-var file_proto_data_proto_goTypes = []any{
+var file_data_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_data_proto_goTypes = []any{
 	(*CompanyRequest)(nil),                  // 0: data.CompanyRequest
 	(*Quarter)(nil),                         // 1: data.Quarter
 	(*QuarterRange)(nil),                    // 2: data.QuarterRange
@@ -2241,7 +2242,7 @@ var file_proto_data_proto_goTypes = []any{
 	(*MultipleCashFlowResponse)(nil),        // 12: data.MultipleCashFlowResponse
 	(*CashFlowResponse)(nil),                // 13: data.CashFlowResponse
 }
-var file_proto_data_proto_depIdxs = []int32{
+var file_data_proto_depIdxs = []int32{
 	1,  // 0: data.QuarterRange.start:type_name -> data.Quarter
 	1,  // 1: data.QuarterRange.end:type_name -> data.Quarter
 	1,  // 2: data.FinancialRequest.date:type_name -> data.Quarter
@@ -2270,24 +2271,24 @@ var file_proto_data_proto_depIdxs = []int32{
 	0,  // [0:13] is the sub-list for field type_name
 }
 
-func init() { file_proto_data_proto_init() }
-func file_proto_data_proto_init() {
-	if File_proto_data_proto != nil {
+func init() { file_data_proto_init() }
+func file_data_proto_init() {
+	if File_data_proto != nil {
 		return
 	}
-	file_proto_data_proto_msgTypes[3].OneofWrappers = []any{
+	file_data_proto_msgTypes[3].OneofWrappers = []any{
 		(*FinancialRequest_Date)(nil),
 		(*FinancialRequest_Range)(nil),
 	}
-	file_proto_data_proto_msgTypes[7].OneofWrappers = []any{
+	file_data_proto_msgTypes[7].OneofWrappers = []any{
 		(*IncomeStatementResponse_Single)(nil),
 		(*IncomeStatementResponse_Multiple)(nil),
 	}
-	file_proto_data_proto_msgTypes[10].OneofWrappers = []any{
+	file_data_proto_msgTypes[10].OneofWrappers = []any{
 		(*BalanceSheetResponse_Single)(nil),
 		(*BalanceSheetResponse_Multiple)(nil),
 	}
-	file_proto_data_proto_msgTypes[13].OneofWrappers = []any{
+	file_data_proto_msgTypes[13].OneofWrappers = []any{
 		(*CashFlowResponse_Single)(nil),
 		(*CashFlowResponse_Multiple)(nil),
 	}
@@ -2295,17 +2296,17 @@ func file_proto_data_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_data_proto_rawDesc), len(file_proto_data_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_data_proto_rawDesc), len(file_data_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_data_proto_goTypes,
-		DependencyIndexes: file_proto_data_proto_depIdxs,
-		MessageInfos:      file_proto_data_proto_msgTypes,
+		GoTypes:           file_data_proto_goTypes,
+		DependencyIndexes: file_data_proto_depIdxs,
+		MessageInfos:      file_data_proto_msgTypes,
 	}.Build()
-	File_proto_data_proto = out.File
-	file_proto_data_proto_goTypes = nil
-	file_proto_data_proto_depIdxs = nil
+	File_data_proto = out.File
+	file_data_proto_goTypes = nil
+	file_data_proto_depIdxs = nil
 }

@@ -1,14 +1,18 @@
 package dtos
 
-import "tspo/db"
+import (
+	"tspo/db"
+	pb "tspo/proto/gen"
+)
 
+// Original structure
 type BalanceSheet struct {
 	Symbol           string           `json:"symbol"`
-	AnnualReports    []balanceReports `json:"annualReports"`
-	QuarterlyReports []balanceReports `json:"quarterlyReports"`
+	AnnualReports    []BalanceReports `json:"annualReports"`
+	QuarterlyReports []BalanceReports `json:"quarterlyReports"`
 }
 
-type balanceReports struct {
+type BalanceReports struct {
 	FiscalDateEnding                       string `json:"fiscalDateEnding"`
 	ReportedCurrency                       string `json:"reportedCurrency"`
 	TotalAssets                            string `json:"totalAssets"`
@@ -49,33 +53,25 @@ type balanceReports struct {
 	CommonStockSharesOutstanding           string `json:"commonStockSharesOutstanding"`
 }
 
-func (s *BalanceSheet) ToDatabaseableSlice() []db.Databaseable {
-	symbol := s.Symbol
-	qurterlyReports := s.QuarterlyReports
-	slice := make([]db.Databaseable, len(qurterlyReports))
-
-	for i, v := range qurterlyReports {
-		instance := &balanceSheetDB{symbol, &v}
-		slice[i] = instance
-	}
-
-	return slice
-}
-
+// Wrapper
 // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-type balanceSheetDB struct {
-	Symbol string `json:"symbol"`
-	*balanceReports
+type BalanceSheetDB struct {
+	Symbol string
+	*BalanceReports
 }
 
+// tableNameable implemented
 // ––––––––––––––––––––––––––––––––––––––––––––––––––
 
-func (req *balanceSheetDB) TableName() string {
+func (s *BalanceSheetDB) TableName() string {
 	return "balance_sheet"
 }
 
-func (req *balanceSheetDB) Columns() []string {
+// Databaseable implemented
+// ––––––––––––––––––––––––––––––––––––––––––––––––––
+
+func (s *BalanceSheetDB) Columns() []string {
 	return []string{
 		"symbol",
 		"fiscalDateEnding",
@@ -119,94 +115,154 @@ func (req *balanceSheetDB) Columns() []string {
 	}
 }
 
-// ––––––––––––––––––––––––––––––––––––––––––––––––––
-
-func (req *balanceSheetDB) InsertableValues() []any {
+func (s *BalanceSheetDB) InsertableValues() []any {
 	return []any{
-		req.Symbol,
-		req.FiscalDateEnding,
-		req.ReportedCurrency,
-		req.TotalAssets,
-		req.TotalCurrentAssets,
-		req.CashAndCashEquivalentsAtCarryingValue,
-		req.CashAndShortTermInvestments,
-		req.Inventory,
-		req.CurrentNetReceivables,
-		req.TotalNonCurrentAssets,
-		req.PropertyPlantEquipment,
-		req.AccumulatedDepreciationAmortizationPPE,
-		req.IntangibleAssets,
-		req.IntangibleAssetsExcludingGoodwill,
-		req.Goodwill,
-		req.Investments,
-		req.LongTermInvestments,
-		req.ShortTermInvestments,
-		req.OtherCurrentAssets,
-		req.OtherNonCurrentAssets,
-		req.TotalLiabilities,
-		req.TotalCurrentLiabilities,
-		req.CurrentAccountsPayable,
-		req.DeferredRevenue,
-		req.CurrentDebt,
-		req.ShortTermDebt,
-		req.TotalNonCurrentLiabilities,
-		req.CapitalLeaseObligations,
-		req.LongTermDebt,
-		req.CurrentLongTermDebt,
-		req.LongTermDebtNoncurrent,
-		req.ShortLongTermDebtTotal,
-		req.OtherCurrentLiabilities,
-		req.OtherNonCurrentLiabilities,
-		req.TotalShareholderEquity,
-		req.TreasuryStock,
-		req.RetainedEarnings,
-		req.CommonStock,
-		req.CommonStockSharesOutstanding,
+		s.Symbol,
+		s.FiscalDateEnding,
+		s.ReportedCurrency,
+		s.TotalAssets,
+		s.TotalCurrentAssets,
+		s.CashAndCashEquivalentsAtCarryingValue,
+		s.CashAndShortTermInvestments,
+		s.Inventory,
+		s.CurrentNetReceivables,
+		s.TotalNonCurrentAssets,
+		s.PropertyPlantEquipment,
+		s.AccumulatedDepreciationAmortizationPPE,
+		s.IntangibleAssets,
+		s.IntangibleAssetsExcludingGoodwill,
+		s.Goodwill,
+		s.Investments,
+		s.LongTermInvestments,
+		s.ShortTermInvestments,
+		s.OtherCurrentAssets,
+		s.OtherNonCurrentAssets,
+		s.TotalLiabilities,
+		s.TotalCurrentLiabilities,
+		s.CurrentAccountsPayable,
+		s.DeferredRevenue,
+		s.CurrentDebt,
+		s.ShortTermDebt,
+		s.TotalNonCurrentLiabilities,
+		s.CapitalLeaseObligations,
+		s.LongTermDebt,
+		s.CurrentLongTermDebt,
+		s.LongTermDebtNoncurrent,
+		s.ShortLongTermDebtTotal,
+		s.OtherCurrentLiabilities,
+		s.OtherNonCurrentLiabilities,
+		s.TotalShareholderEquity,
+		s.TreasuryStock,
+		s.RetainedEarnings,
+		s.CommonStock,
+		s.CommonStockSharesOutstanding,
 	}
 }
 
-// ––––––––––––––––––––––––––––––––––––––––––––––––––
-
-func (res *balanceSheetDB) SelectableValues() []any {
+func (s *BalanceSheetDB) SelectableValues() []any {
 	return []any{
-		&res.Symbol,
-		&res.FiscalDateEnding,
-		&res.ReportedCurrency,
-		&res.TotalAssets,
-		&res.TotalCurrentAssets,
-		&res.CashAndCashEquivalentsAtCarryingValue,
-		&res.CashAndShortTermInvestments,
-		&res.Inventory,
-		&res.CurrentNetReceivables,
-		&res.TotalNonCurrentAssets,
-		&res.PropertyPlantEquipment,
-		&res.AccumulatedDepreciationAmortizationPPE,
-		&res.IntangibleAssets,
-		&res.IntangibleAssetsExcludingGoodwill,
-		&res.Goodwill,
-		&res.Investments,
-		&res.LongTermInvestments,
-		&res.ShortTermInvestments,
-		&res.OtherCurrentAssets,
-		&res.OtherNonCurrentAssets,
-		&res.TotalLiabilities,
-		&res.TotalCurrentLiabilities,
-		&res.CurrentAccountsPayable,
-		&res.DeferredRevenue,
-		&res.CurrentDebt,
-		&res.ShortTermDebt,
-		&res.TotalNonCurrentLiabilities,
-		&res.CapitalLeaseObligations,
-		&res.LongTermDebt,
-		&res.CurrentLongTermDebt,
-		&res.LongTermDebtNoncurrent,
-		&res.ShortLongTermDebtTotal,
-		&res.OtherCurrentLiabilities,
-		&res.OtherNonCurrentLiabilities,
-		&res.TotalShareholderEquity,
-		&res.TreasuryStock,
-		&res.RetainedEarnings,
-		&res.CommonStock,
-		&res.CommonStockSharesOutstanding,
+		&s.Symbol,
+		&s.FiscalDateEnding,
+		&s.ReportedCurrency,
+		&s.TotalAssets,
+		&s.TotalCurrentAssets,
+		&s.CashAndCashEquivalentsAtCarryingValue,
+		&s.CashAndShortTermInvestments,
+		&s.Inventory,
+		&s.CurrentNetReceivables,
+		&s.TotalNonCurrentAssets,
+		&s.PropertyPlantEquipment,
+		&s.AccumulatedDepreciationAmortizationPPE,
+		&s.IntangibleAssets,
+		&s.IntangibleAssetsExcludingGoodwill,
+		&s.Goodwill,
+		&s.Investments,
+		&s.LongTermInvestments,
+		&s.ShortTermInvestments,
+		&s.OtherCurrentAssets,
+		&s.OtherNonCurrentAssets,
+		&s.TotalLiabilities,
+		&s.TotalCurrentLiabilities,
+		&s.CurrentAccountsPayable,
+		&s.DeferredRevenue,
+		&s.CurrentDebt,
+		&s.ShortTermDebt,
+		&s.TotalNonCurrentLiabilities,
+		&s.CapitalLeaseObligations,
+		&s.LongTermDebt,
+		&s.CurrentLongTermDebt,
+		&s.LongTermDebtNoncurrent,
+		&s.ShortLongTermDebtTotal,
+		&s.OtherCurrentLiabilities,
+		&s.OtherNonCurrentLiabilities,
+		&s.TotalShareholderEquity,
+		&s.TreasuryStock,
+		&s.RetainedEarnings,
+		&s.CommonStock,
+		&s.CommonStockSharesOutstanding,
+	}
+}
+
+// Sliceable implemented
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+func (s *BalanceSheet) ToDatabaseableSlice() []db.Databaseable {
+	symbol := s.Symbol
+	qurterlyReports := s.QuarterlyReports
+	slice := make([]db.Databaseable, len(qurterlyReports))
+
+	for i, v := range qurterlyReports {
+		instance := &BalanceSheetDB{symbol, &v}
+		slice[i] = instance
+	}
+
+	return slice
+}
+
+// Grpcable implemented
+// –––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+func (s *BalanceSheetDB) ToResponse() any {
+	v := s.InsertableValues()
+	return &pb.SingleBalanceSheetResponse{
+		Symbol:                                 v[0].(string),
+		Fiscaldateending:                       v[1].(string),
+		Reportedcurrency:                       v[2].(string),
+		Totalassets:                            v[3].(string),
+		Totalcurrentassets:                     v[4].(string),
+		Cashandcashequivalentsatcarryingvalue:  v[5].(string),
+		Cashandshortterminvestments:            v[6].(string),
+		Inventory:                              v[7].(string),
+		Currentnetreceivables:                  v[8].(string),
+		Totalnoncurrentassets:                  v[9].(string),
+		Propertyplantequipment:                 v[10].(string),
+		Accumulateddepreciationamortizationppe: v[11].(string),
+		Intangibleassets:                       v[12].(string),
+		Intangibleassetsexcludinggoodwill:      v[13].(string),
+		Goodwill:                               v[14].(string),
+		Investments:                            v[15].(string),
+		Longterminvestments:                    v[16].(string),
+		Shortterminvestments:                   v[17].(string),
+		Othercurrentassets:                     v[18].(string),
+		Othernoncurrentassets:                  v[19].(string),
+		Totalliabilities:                       v[20].(string),
+		Totalcurrentliabilities:                v[21].(string),
+		Currentaccountspayable:                 v[22].(string),
+		Deferredrevenue:                        v[23].(string),
+		Currentdebt:                            v[24].(string),
+		Shorttermdebt:                          v[25].(string),
+		Totalnoncurrentliabilities:             v[26].(string),
+		Capitalleaseobligations:                v[27].(string),
+		Longtermdebt:                           v[28].(string),
+		Currentlongtermdebt:                    v[29].(string),
+		Longtermdebtnoncurrent:                 v[30].(string),
+		Shortlongtermdebttotal:                 v[31].(string),
+		Othercurrentliabilities:                v[32].(string),
+		Othernoncurrentliabilities:             v[33].(string),
+		Totalshareholderequity:                 v[34].(string),
+		Treasurystock:                          v[35].(string),
+		Retainedearnings:                       v[36].(string),
+		Commonstock:                            v[37].(string),
+		Commonstocksharesoutstanding:           v[38].(string),
 	}
 }
