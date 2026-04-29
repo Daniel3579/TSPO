@@ -14,7 +14,7 @@ service DataService {
 // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 message CompanyRequest {
-    string name = 1;
+    string symbol = 1;
 }
 
 // ––––––––––––––––––––––––––––
@@ -30,7 +30,7 @@ message QuarterRange {
 }
 
 message FinancialRequest {
-    string name = 1;
+    string symbol = 1;
     oneof timeframe {
         Quarter date = 2;
         QuarterRange range = 3;
