@@ -1,0 +1,29 @@
+.git
+bin
+tmp
+*.log
+.idea
+.vscode
+.env
+.key
+# зависимости (будут установлены внутри контейнера)
+node_modules
+npm-debug.log
+
+# файлы сборки (пересоберутся в контейнере)
+dist
+.cache
+
+# файлы IDE и системы
+.vscode
+.idea
+*.log
+.DS_Store
+
+# env файлы (если не хотите включать в образ, но обычно копируются)
+# .env*
+
+# прочие служебные файлы
+.git
+.gitignore
+README.md

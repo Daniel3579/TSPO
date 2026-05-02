@@ -1,0 +1,26 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: "feature/vue-client"
+  pull_request:
+    branches: "main"
+
+jobs:
+  server-docker-build:
+    uses: ./.github/workflows/build-and-push-docker.yml
+    with:
+      service-name: go-server
+    secrets: inherit
+
+  client-docker-build:
+    uses: ./.github/workflows/build-and-push-docker.yml
+    with:
+      service-name: vue-client
+    secrets: inherit
+
+  db-docker-build:
+    uses: ./.github/workflows/build-and-push-docker.yml
+    with:
+      service-name: postgres
+    secrets: inherit

@@ -8,24 +8,19 @@
 
 Получение финансовых данных с сервиса Alpha Vantage
 
-- Краткий обзор финансового положения компании
-![Screenshot](./screenshots/Screenshot_1.png)
-
-- Ежеквартальные отчеты о выручке
-![Screenshot](./screenshots/Screenshot_2.png)
-
-- Ежеквартальные отчеты о балансе компании
-![Screenshot](./screenshots/Screenshot_3.png)
-
-- Ежеквартальные отчеты денежных потоков
-![Screenshot](./screenshots/Screenshot_4.png)
+|Краткий обзор финансового положения компании|Ежеквартальные отчеты о выручке|
+|-|-|
+|![Screenshot](./screenshots/Screenshot_1.png)|![Screenshot](./screenshots/Screenshot_2.png)|
+|Ежеквартальные отчеты о балансе компании|Ежеквартальные отчеты денежных потоков|
+|![Screenshot](./screenshots/Screenshot_3.png)|![Screenshot](./screenshots/Screenshot_4.png)|
 
 ---
 
 Подключение к Postgres и запись в базу данных
-![Screenshot](./screenshots/Screenshot_5.png)
-|![Screenshot](./screenshots/Screenshot_6.png)|![Screenshot](./screenshots/Screenshot_7.png)|![Screenshot](./screenshots/Screenshot_8.png)|
-|-|-|-|
+
+|![Screenshot](./screenshots/Screenshot_5.png)|![Screenshot](./screenshots/Screenshot_6.png)|
+|-|-|
+|![Screenshot](./screenshots/Screenshot_7.png)|![Screenshot](./screenshots/Screenshot_8.png)|
 
 ---
 
@@ -40,44 +35,107 @@
 |-|-|
 |![Screenshot](./screenshots/Screenshot_11.png)|![Screenshot](./screenshots/Screenshot_12.png)|
 
-### В разрботке
+---
 
-Beб интерфейс
+Клиент на Vue
+
+|![Screenshot](./screenshots/Screenshot_13.png)|![Screenshot](./screenshots/Screenshot_14.png)|
+|-|-|
+|![Screenshot](./screenshots/Screenshot_15.png)|![Screenshot](./screenshots/Screenshot_16.png)|
+
+---
+
+Сборка 3-x Docker контейнеров
+- Go-server
+- Vue-client
+- Postgres
+
+Написан [docker-compose](./docker-compose.yml)
+
+![Screenshot](./screenshots/Screenshot_17.png)
+
+---
+
+Настроен [CI Pipeline](./.github/workflows/)
+
+![Screenshot](./screenshots/Screenshot_18.png)
 
 ---
 
 ### Дерево проекта
 ```
+├── .github
+│   └── workflows
+│       ├── build-and-push-docker.yml
+│       └── main.yml
 ├── .vscode
 │   └── launch.json
-├── cmd
-│   └── main.go
-├── db
-│   ├── db.go
-│   ├── interfaces.go
-│   └── tables.sql
-├── dtos
-│   ├── balanceSheet.go
-│   ├── cashFlow.go
-│   ├── incomeStatement.go
-│   └── overview.go
-├── handlers
-│   └── grpc.go
-├── proto
-│   ├── gen
-│   │   ├── data.pb.go
-│   │   └── data_grpc.pb.go
-│   ├── rtos
-│   │   ├── companyRequest.go
-│   │   └── financialRequest.go
-│   └── data.proto
+├── go-server
+│   ├── cmd
+│   │   └── main.go
+│   ├── db
+│   │   ├── db.go
+│   │   └── interfaces.go
+│   ├── dtos
+│   │   ├── balanceSheet.go
+│   │   ├── cashFlow.go
+│   │   ├── incomeStatement.go
+│   │   └── overview.go
+│   ├── handlers
+│   │   ├── grpc.go
+│   │   └── rest.go
+│   ├── proto
+│   │   ├── gen
+│   │   │   ├── data.pb.go
+│   │   │   └── data_grpc.pb.go
+│   │   ├── rtos
+│   │   │   ├── companyRequest.go
+│   │   │   └── financialRequest.go
+│   │   └── data.proto
+│   ├── .dockerignore
+│   ├── .env.ex
+│   ├── Dockerfile
+│   ├── go.mod
+│   └── go.sum
+├── postgres
+│   ├── .dockerignore
+│   ├── .env.ex
+│   ├── Dockerfile
+│   └── init.sql
 ├── screenshots
 │   └── ...
-├── .env_example
+├── vue-client
+│   ├── .vscode
+│   │   └── extensions.json
+│   ├── public
+│   │   ├── favicon.svg
+│   │   └── icons.svg
+│   ├── src
+│   │   ├── gen
+│   │   │   ├── data.client.ts
+│   │   │   └── data.ts
+│   │   ├── App.vue
+│   │   ├── Balance.vue
+│   │   ├── CashFlow.vue
+│   │   ├── Income.vue
+│   │   ├── main.ts
+│   │   └── styles.css
+│   ├── .dockerignore
+│   ├── .env.ex
+│   ├── .gitignore
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── index.html
+│   ├── nginx.conf.template
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
 ├── .gitignore
 ├── README.md
-├── go.mod
-└── go.sum
+└── docker-compose.yml
 
-10 directories, 32 files
+19 directories, 71 files
 ```

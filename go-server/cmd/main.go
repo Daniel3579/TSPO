@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"sync"
 	"tspo/db"
 	"tspo/dtos"
 	"tspo/handlers"
@@ -110,6 +111,46 @@ func Process(links []string) {
 	}
 }
 
+// func main() {
+// 	err := LoadEnv()
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	err = db.ConnectDB("DATABASE_URL")
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	defer db.CloseDB()
+
+// 	// apikey := "YR4YSSIHBCLS3OJM"
+// 	// Process(GetLinks(apikey, "AAPL"))
+// 	// Process(GetLinks(apikey, "AMZN"))
+// 	// Process(GetLinks(apikey, "ADBE"))
+
+// 	// Создаем новый gRPC сервер
+// 	grpcServer := grpc.NewServer()
+
+// 	// Регистрация сервиса
+// 	pb.RegisterDataServiceServer(grpcServer, &handlers.Server{})
+
+// 	// Создаем сетевой слушатель
+// 	var port string = os.Getenv("AUTH_PORT")
+// 	if port == "" {
+// 		log.Fatal("PORT environment variable is not set")
+// 	}
+
+// 	lis, err := net.Listen("tcp", port)
+// 	if err != nil {
+// 		log.Fatalf("failed to listen: %v", err)
+// 	}
+
+// 	log.Println("Auth gRPC server is running at " + port)
+// 	if err := grpcServer.Serve(lis); err != nil {
+// 		log.Fatalf("failed to serve: %v", err)
+// 	}
+// }
+
 func main() {
 	err := LoadEnv()
 	if err != nil {
@@ -122,30 +163,58 @@ func main() {
 	}
 	defer db.CloseDB()
 
-	// apikey := "YR4YSSIHBCLS3OJM"
-	// Process(GetLinks(apikey, "AAPL"))
-	// Process(GetLinks(apikey, "AMZN"))
-	// Process(GetLinks(apikey, "ADBE"))
+	var wg *sync.WaitGroup = &sync.WaitGroup{}
 
-	// Создаем новый gRPC сервер
-	grpcServer := grpc.NewServer()
+	wg.Add(1)
+	go func() {
+		var port string = os.Getenv("GRPC_PORT")
+		if port == "" {
+			log.Fatal("GRPC_PORT environment variable is not set")
+		}
 
-	// Регистрация сервиса
-	pb.RegisterDataServiceServer(grpcServer, &handlers.Server{})
+		grpcSrv := grpc.NewServer()
+		pb.RegisterDataServiceServer(grpcSrv, &handlers.Server{})
 
-	// Создаем сетевой слушатель
-	var port string = os.Getenv("AUTH_PORT")
-	if port == "" {
-		log.Fatal("PORT environment variable is not set")
-	}
+		lis, err := net.Listen("tcp", port)
+		if err != nil {
+			log.Fatalf("failed to listen: %v", err)
+		}
+		defer lis.Close()
 
-	lis, err := net.Listen("tcp", port)
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
+		log.Println("gRPC server is running at: " + port)
+		if err := grpcSrv.Serve(lis); err != nil {
+			log.Fatal("gRPC server error:", err)
+		}
 
-	log.Println("Auth gRPC server is running at " + port)
-	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
+		wg.Done()
+	}()
+
+	wg.Add(1)
+	go func() {
+		var port string = os.Getenv("REST_PORT")
+		if port == "" {
+			log.Fatal("REST_PORT environment variable is not set")
+		}
+
+		hs := &handlers.HttpServer{GrpcSrv: &handlers.Server{}}
+		http.HandleFunc("/overview", handlers.EnableCORS(hs.OverviewHandler))
+		http.HandleFunc("/income", handlers.EnableCORS(hs.IncomeHandler))
+		http.HandleFunc("/balance", handlers.EnableCORS(hs.BalanceHandler))
+		http.HandleFunc("/cashflow", handlers.EnableCORS(hs.CashFlowHandler))
+
+		lis, err := net.Listen("tcp", port)
+		if err != nil {
+			log.Fatalf("failed to listen: %v", err)
+		}
+		defer lis.Close()
+
+		log.Println("REST server is running at: " + port)
+		if err := http.Serve(lis, nil); err != nil {
+			log.Fatal("REST server error:", err)
+		}
+
+		wg.Done()
+	}()
+
+	wg.Wait()
 }
