@@ -56,7 +56,9 @@
 
 ---
 
-Настроен [CI Pipeline](./.github)
+Настроен [CI Pipeline](./.github/workflows/)
+
+![Screenshot](./screenshots/Screenshot_18.png)
 
 ---
 
@@ -135,5 +137,5 @@
 ├── README.md
 └── docker-compose.yml
 
-19 directories, 70 files
+19 directories, 71 files
 ```
