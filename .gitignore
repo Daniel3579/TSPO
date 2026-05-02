@@ -4,7 +4,7 @@
 *.log
 *.DS_Store
 *.env
-*/docker-compose.yml
-*.dockerignore
 *.docx
 *.txt
+*.key
+data/
