@@ -7,9 +7,6 @@ on:
         required: true
         type: string
 
-env:
-  REPO: daniel3579/tspo
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -29,8 +26,8 @@ jobs:
           password: ${{ secrets.GH_PAT }}
 
       - name: Build Docker image
-        run: docker build -t ghcr.io/${{ env.REPO }}/${{ inputs.service-name }}-image:${{ github.sha }} .
+        run: docker build -t ghcr.io/${{ vars.repo }}/${{ inputs.service-name }}-image:${{ github.sha }} .
         working-directory: ./${{ inputs.service-name }}
         
       - name: Push Docker image
-        run: docker push ghcr.io/${{ env.REPO }}/${{ inputs.service-name }}-image:${{ github.sha }}
+        run: docker push ghcr.io/${{ vars.repo }}/${{ inputs.service-name }}-image:${{ github.sha }}
