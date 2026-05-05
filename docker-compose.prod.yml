@@ -1,0 +1,44 @@
+services:
+  tspo-db:
+    image: ghcr.io/${REPO}/postgres-image:latest
+    container_name: tspo-postgres-service
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-postgres} -h localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  tspo-server:
+    image: ghcr.io/${REPO}/go-server-image:latest
+    container_name: tspo-go-service
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - GRPC_PORT=${GRPC_PORT}
+      - REST_PORT=${REST_PORT}
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      tspo-db:
+        condition: service_healthy
+
+  tspo-client:
+    image: ghcr.io/${REPO}/vue-client-image:latest
+    container_name: tspo-vue-service
+    ports:
+      - "5137:80"
+    environment:
+      - BACKEND_URL=${BACKEND_URL}
+
+volumes:
+  postgres_data:

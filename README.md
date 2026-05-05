@@ -1,6 +1,7 @@
 ## Коляда Даниил – ЭФМО-01-25
 
 ### Веб приложение для оценки финансовой надежности компании
+[tspo-app.com](http://79.164.78.98:5137)
 
 ---
 
@@ -56,7 +57,15 @@
 
 ---
 
-Настроен [CI Pipeline](./.github)
+Настроен [CI/CD Pipeline](./.github/workflows/)  
+
+![Screenshot](./screenshots/Screenshot_18.png)
+
+---
+
+Приложение развернуто на удаленном сервере
+
+![Screenshot](./screenshots/Screenshot_19.png)
 
 ---
 
@@ -65,6 +74,8 @@
 ├── .github
 │   └── workflows
 │       ├── build-and-push-docker.yml
+│       ├── publish-oci-artifact.yml
+│       ├── deploy-to-server.yml
 │       └── main.yml
 ├── .vscode
 │   └── launch.json
@@ -133,7 +144,8 @@
 │   └── vite.config.ts
 ├── .gitignore
 ├── README.md
+├── docker-compose.prof.yml
 └── docker-compose.yml
 
-19 directories, 70 files
+19 directories, 75 files
 ```

@@ -7,9 +7,6 @@ on:
         required: true
         type: string
 
-env:
-  REPO: daniel3579/tspo
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -28,9 +25,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_PAT }}
 
-      - name: Build Docker image
-        run: docker build -t ghcr.io/${{ env.REPO }}/${{ inputs.service-name }}-image:${{ github.sha }} .
-        working-directory: ./${{ inputs.service-name }}
-        
-      - name: Push Docker image
-        run: docker push ghcr.io/${{ env.REPO }}/${{ inputs.service-name }}-image:${{ github.sha }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v7
+        with:
+          context: ./${{ inputs.service-name }}
+          push: false
+          load: true
+          tags: |
+            ghcr.io/${{ vars.repo }}/${{ inputs.service-name }}-image:${{ github.sha }}
+            ghcr.io/${{ vars.repo }}/${{ inputs.service-name }}-image:latest
+          cache-from: type=gha,scope=${{ inputs.service-name }}
+          cache-to: type=gha,scope=${{ inputs.service-name }},mode=max
+
+      - name: Push all tags
+        run: docker push --all-tags ghcr.io/${{ vars.repo }}/${{ inputs.service-name }}-image

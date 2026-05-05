@@ -58,7 +58,8 @@ func getData[T any](url string, model *T) (*T, error) {
 func LoadEnv() error {
 	err := godotenv.Load(".env")
 	if err != nil {
-		return fmt.Errorf("Ошибка загрузки файла .env: %w", err)
+		fmt.Println("Файл .env не найден, продолжение с переменными окружения из Docker")
+		// return fmt.Errorf("Ошибка загрузки файла .env: %w", err)
 	}
 	return nil
 }
