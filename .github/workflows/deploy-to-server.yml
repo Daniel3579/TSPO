@@ -1,0 +1,52 @@
+name: Deploy to Server
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          envs: REPO, POSTGRES_ADDRESS, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT, GRPC_PORT, REST_PORT
+          script: |
+            cd ~
+            mkdir -p app/tspo
+            cd app/tspo
+            
+            cat > .env << EOF
+            REPO=$REPO
+            POSTGRES_ADDRESS=$POSTGRES_ADDRESS
+            POSTGRES_USER=$POSTGRES_USER
+            POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+            POSTGRES_DB=$POSTGRES_DB
+            POSTGRES_PORT=$POSTGRES_PORT
+            GRPC_PORT=$GRPC_PORT
+            REST_PORT=$REST_PORT
+            DATABASE_URL=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_ADDRESS:$POSTGRES_PORT/$POSTGRES_DB?sslmode=disable
+            BACKEND_URL=http://$POSTGRES_ADDRESS$REST_PORT/
+            EOF
+            
+            echo "${{ secrets.GH_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            
+            docker compose -f oci://ghcr.io/${{ vars.REPO }}/tspo-app:latest --env-file .env up -d --pull always -y
+        env:
+            REPO: ${{vars.REPO}}
+            POSTGRES_ADDRESS: ${{secrets.POSTGRES_ADDRESS}}
+            POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+            POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+            POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+            POSTGRES_PORT: ${{secrets.POSTGRES_PORT}}
+            GRPC_PORT: ${{secrets.GRPC_PORT}}
+            REST_PORT: ${{secrets.REST_PORT}}
