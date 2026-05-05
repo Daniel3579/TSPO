@@ -28,14 +28,14 @@ jobs:
   # Публикация OCI-артефакта (после сборки всех образов)
   publish-oci:
     needs: [server-docker-build, client-docker-build, db-docker-build]
-    if: github.ref == 'refs/heads/main'
+    if: github.base_ref == 'main'
     uses: ./.github/workflows/publish-oci-artifact.yml
     secrets: inherit
 
   # Деплой на сервер (только для main ветки)
   deploy-to-acer-server:
     needs: publish-oci
-    if: github.ref == 'refs/heads/main'
+    if: github.base_ref == 'main'
     uses: ./.github/workflows/deploy-to-server.yml
     with:
       environment: acer-server
